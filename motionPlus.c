@@ -1,23 +1,24 @@
 
-properties_t* buildProperties(properties_t *p, float currentPosition, float mass,
-                              int *motorPorts, int nPorts, int sensorPort) {
-  p->lastPosition = currentPosition;
-  p->lastTime     = 0;
-  p->mass         = mass;
-  p->motorPorts   = motorPorts;
-  p->nPorts       = nPorts;
-  p->sensorPort   = sensorPort;
+task motionPlusUpdater() {
+  properties_t *leftDrive, *rightDrive, *lift, *capture;
+  setupProperties(leftDrive, rightDrive, lift, capture);
 
-  return p;
-}
+  clearTimer(PLUS_TIMER); // clear timer after building all properties
+  while (true) {
+    // update velocities
+    updateVelocity(leftDrive);
+    updateVelocity(rightDrive);
+    updateVelocity(lift);
+    updateVelocity(capture);
 
-float momentum(properties_t p) {
-  return p.velocity * p.mass;
+    // let other tasks work
+    wait1Msec(100);
+  }
 }
 
 static void updateVelocity(properties_t *p) {
   const float currentPosition = SensorValue[p->sensorPort];
-  const float currentTime     = time1(motionPlusTimer);
+  const float currentTime     = PLUS_CURRENT_TIME;
 
   // update the velocity
   p->velocity = (currentPosition - p->lastPosition)/(currentTime - p->lastTime);
@@ -27,56 +28,74 @@ static void updateVelocity(properties_t *p) {
   p->lastTime = currentTime;
 }
 
+float momentum(properties_t p) {
+  return p.velocity * p.mass;
+}
+
+void momentumStop(properties_t p) {
+#warning "    motionPlus::momentumStop() not implemented"
+	// more power to motor as momentum increases -- account for rotating parts
+}
+
+void momentumMove(properties_t p, float targetValue) {
+#warning "    motionPlus::momentumMove() not implemented"
+  // moves part to targetValue, then calls momentumStop()
+}
+/*
+  =====================================
+  =============SETUP STUFF=============
+  =====================================
+*/
+properties_t* buildProperties(properties_t *p, float currentPosition, float mass,
+                              int *motorPorts, int nPorts, int sensorPort, bool rotates) {
+
+  p->lastPosition = currentPosition;
+  p->lastTime     = PLUS_CURRENT_TIME;
+  p->mass         = mass;
+  p->motorPorts   = motorPorts;
+  p->nPorts       = nPorts;
+  p->sensorPort   = sensorPort;
+  p->rotates      = rotates;
+
+  return p;
+}
+
 static void setupProperties(properties_t *leftDrive, properties_t *rightDrive,
                             properties_t *lift, properties_t *capture) {
-//#error "pos_unfinished"
-	int leftDrivePos      = -1,
-	    rightDrivePos     = -1,
-	    liftPos           = -1,
-	    capturePos        = -1;
 
-//#error "mass_unfinished"
-	int leftDriveMass     = -1,
-	    rightDriveMass    = -1,
-	    liftMass          = -1,
-	    captureMass       = -1;
+	int leftDrivePos      = SensorValue[leftEncoder],
+	    rightDrivePos     = SensorValue[rightEncoder],
+	    liftPos           = SensorValue[liftEncoder],
+	    capturePos        = SensorValue[mobileEncoder];
 
-//#error "ports_unfinished"
-	int leftDrivePorts[]  = {0},
-	    rightDrivePorts[] = {0},
-	    liftPorts[]       = {0},
-	    capturePorts[]    = {0};
+#error "    motionPlus: mass not implemented"
+	int  leftDriveMass     = -1,
+	     rightDriveMass    = -1,
+	     liftMass          = -1,
+	     captureMass       = -1;
 
-//#error "nports_unfinished"
-	int leftDriveNPorts   = -1,
-	    rightDriveNPorts  = -1,
-	    liftNPorts        = -1,
-	    captureNPorts     = -1;
+	int  leftDrivePorts[]  = {backLeft,frontLeft},
+	     rightDrivePorts[] = {backRight, frontRight},
+	     liftPorts[]       = {liftLeft, liftRight},
+	     capturePorts[]    = {mobileCapture};
 
-//#error "sensor_unfinished"
-	int leftDriveSensor   = -1,
-	    rightDriveSensor  = -1,
-	    liftSensor        = -1,
-	    captureSensor     = -1;
+	int  leftDriveNPorts   = 2,
+	     rightDriveNPorts  = 2,
+	     liftNPorts        = 2,
+	     captureNPorts     = 1;
 
-  buildProperties(leftDrive,   leftDrivePos,  leftDriveMass,  leftDrivePorts,  leftDriveNPorts,  leftDriveSensor);
-  buildProperties(rightDrive,  rightDrivePos, rightDriveMass, rightDrivePorts, rightDriveNPorts, rightDriveSensor);
-  buildProperties(lift,        liftPos,       liftMass,       liftPorts,       liftNPorts,       liftSensor);
-  buildProperties(capture,     capturePos,    captureMass,    capturePorts,    captureNPorts,    captureSensor);
-}
-task motionPlusUpdater() {
-  properties_t *leftDrive, *rightDrive, *lift, *capture;
-  setupProperties(leftDrive, rightDrive, lift, capture);
+	int  leftDriveSensor   = leftEncoder,
+	     rightDriveSensor  = rightEncoder,
+	     liftSensor        = liftEncoder,
+	     captureSensor     = mobileEncoder;
 
-  ClearTimer(motionPlusTimer); // clear timer after building all properties
-  while (true) {
-    // update velocities
-    updateVelocity(leftDrive);
-    updateVelocity(rightDrive);
-    updateVelocity(lift);
-    updateVelocity(capture);
+	bool leftDriveRotates  = false,
+	     rightDriveRotates = false,
+	     liftRotates       = true,
+	     captureRotates    = true;
 
-    // let other tasks work
-    wait1Msec(10);
-  }
+  buildProperties(leftDrive,   leftDrivePos,  leftDriveMass,  leftDrivePorts,  leftDriveNPorts,  leftDriveSensor,  leftDriveRotates);
+  buildProperties(rightDrive,  rightDrivePos, rightDriveMass, rightDrivePorts, rightDriveNPorts, rightDriveSensor, rightDriveRotates);
+  buildProperties(lift,        liftPos,       liftMass,       liftPorts,       liftNPorts,       liftSensor,       liftRotates);
+  buildProperties(capture,     capturePos,    captureMass,    capturePorts,    captureNPorts,    captureSensor,    captureRotates);
 }

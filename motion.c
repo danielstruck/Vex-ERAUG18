@@ -1,6 +1,6 @@
 
-void setPistons(int pistonState) {
-	if (pistonState == PISTON_PULL) {
+void setPistons(int state) {
+	if (state == PISTON_PULL) {
 		SensorValue[pistonOne] = PISTON_PULL;
 		SensorValue[pistonTwo] = PISTON_PULL;
 	}

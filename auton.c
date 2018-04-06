@@ -1,4 +1,3 @@
-#include "auton.h"
 
 task autonomous() {
 	switch (selectedAuton) {

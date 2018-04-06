@@ -1,4 +1,3 @@
-#include "userControl.h"
 #include "motion.h"
 
 #define MOBILE_TARGET   -370
@@ -38,9 +37,7 @@ task usercontrol() {
 			liftSpeed(-127);
 		}
 		else {
-			// max list val 850
-			int idle = -3*SensorValue[liftEncoder]/85 - 5;
-			motor[liftLeft] = motor[liftRight] = idle;
+			lockLift();
 		}
 
 		// Friction Drum Controls

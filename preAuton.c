@@ -9,7 +9,7 @@ void pre_auton() {
   resetSensors();
   
 #ifdef _MOTION_PLUS_H_
-  // start motion plus updater if it is included
+  // start motion plus updater if it has been included
   startTask(motionPlusUpdater);
 #endif // _MOTION_PLUS_H_
 
