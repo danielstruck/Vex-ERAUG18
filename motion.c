@@ -1,12 +1,12 @@
 
 void setPistons(int pistonState) {
-	if (pistonState == 0) {
-		SensorValue[pistonOne] = 0;
-		SensorValue[pistonTwo] = 0;
+	if (pistonState == PISTON_PULL) {
+		SensorValue[pistonOne] = PISTON_PULL;
+		SensorValue[pistonTwo] = PISTON_PULL;
 	}
 	else {
-		SensorValue[pistonOne] = 1;
-		SensorValue[pistonTwo] = 1;
+		SensorValue[pistonOne] = PISTON_PUSH;
+		SensorValue[pistonTwo] = PISTON_PUSH;
 	}
 }
 
