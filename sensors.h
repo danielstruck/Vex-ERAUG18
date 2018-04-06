@@ -6,7 +6,7 @@
 
 void driveIn(float inches);
 void driveRaw(int amount);
-void rotateDeg(float degrees);
+void rotateDeg(float deg); // degrees is a system value
 void rotateRaw(int amount);
 void setLiftPos(int position);
 void setMobileCapturePos(int position);

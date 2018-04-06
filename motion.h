@@ -15,7 +15,7 @@
 #define TURN_LEFT        127
 #define TURN_RIGHT      -TURN_LEFT
 
-void setPistons(int pistonState);
+void setPistons(int state);
 void frictionDrumSpeed(int speed);
 void liftSpeed(int speed);
 void driveSpeed(int speed);
