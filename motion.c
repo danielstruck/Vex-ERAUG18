@@ -19,6 +19,12 @@ void liftSpeed(int speed) {
 	motor[liftRight] = speed;
 }
 
+void lockLift() {
+	int x = SensorValue[liftEncoder]; // x value for quad
+	int speed = -5 - 0.06143791*x - 0.0000307574*x*x;
+	liftSpeed(speed);
+}
+
 void stopWheels() {
 	motor[frontLeft] = 0;
 	motor[frontRight] = 0;

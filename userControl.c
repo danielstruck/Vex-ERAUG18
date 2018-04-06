@@ -25,10 +25,10 @@ task usercontrol() {
 		int strafeVal = C1RX;
 		if (abs(strafeVal) < 20)
 			strafeVal = 0;
-		motor[frontLeft] = C1LY + C1LX + strafeVal;
-		motor[frontRight] =  -C1LY + C1LX - strafeVal;
-		motor[backRight] =  C1LY + C1LX + strafeVal;
-		motor[backLeft] = -C1LY - C1LX - strafeVal;
+		motor[frontLeft] =    C1LY + strafeVal + C1LX;
+		motor[frontRight] =  -C1LY + strafeVal + C1LX;
+		motor[backRight] =    C1LY + strafeVal - C1LX;
+		motor[backLeft] =    -C1LY + strafeVal - C1LX;
 
 		// Lift Controls
 		if(vexRT [Btn5U] == 1) {

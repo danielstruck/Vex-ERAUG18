@@ -18,6 +18,7 @@
 void setPistons(int pistonState);
 void frictionDrumSpeed(int speed);
 void liftSpeed(int speed);
+void lockLift();
 void driveSpeed(int speed);
 void turnSpeed(int speed);
 void stopWheels();

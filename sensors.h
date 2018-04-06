@@ -10,7 +10,6 @@ void rotateDeg(float degrees);
 void rotateRaw(int amount);
 void setLiftPos(int position);
 void setMobileCapturePos(int position);
-void lockLift();
 
 #include "sensors.c"
 #endif // _SENSORS_H_
