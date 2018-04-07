@@ -20,8 +20,13 @@ void liftSpeed(int speed) {
 }
 
 void lockLift() {
-	int x = SensorValue[liftEncoder]; // x value for quad
-	int speed = -5 - 0.06143791*x - 0.0000307574*x*x;
+	const int x = SensorValue[liftEncoder];
+
+  // quadratic
+	//int speed = -5 - 0.06143791*x - 0.0000307574*x*x;
+  // cubic
+	int speed = -5 - 0.05198773*x + 0.00009384581*x*x + 1.579372*pow(10,-7)*x*x*x;
+
 	liftSpeed(speed);
 }
 
@@ -36,16 +41,31 @@ void mobileCaptureSpeed(int speed) {
 	motor[mobileCapture] = speed;
 }
 
+void frontWheels(int speed) {
+	motor[frontLeft] = speed;
+	motor[frontRight] = -speed;
+}
+
+void backWheels(int speed) {
+	motor[backLeft] = speed;
+	motor[backRight] = -speed;
+}
+
+void leftWheels(int speed) {
+	motor[frontLeft] = speed;
+	motor[backLeft] = speed;
+}
+void rightWheels(int speed) {
+	motor[frontRight] = -speed;
+	motor[backRight] = -speed;
+}
+
 void driveSpeed(int speed) {
-	motor[frontLeft] = -speed;
-	motor[backLeft] = -speed;
-	motor[frontRight] = speed;
-	motor[backRight] = speed;
+	leftWheels(speed);
+	rightWheels(speed);
 }
 
 void turnSpeed(int speed) {
-	motor[frontLeft] = speed;
-	motor[frontRight] = speed;
-	motor[backRight] = -speed;
-	motor[backLeft] = -speed;
+	leftWheels(speed);
+	rightWheels(-speed);
 }

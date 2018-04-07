@@ -1,34 +1,62 @@
 #include "motion.h"
 
-void driveIn(float inches) {
-#warning "    sensors::driveIn() not implemented"
+void driveInches(float inches) {
   // uses wheel encoders to drive a distance in inches
+  float rotationsRequired = inches /(1.414 * WHEEL_CIRCUMFERENCE);
+  int rawValue = rotationsRequired * WHEEL_ROTATION_VALUE;
+  clearLCDLine(0);
+  displayLCDNumber(0, 0, rotationsRequired);
+  displayLCDNumber(1, 0, rawValue);
+  driveRaw(rawValue);
+  // c * r = d
+  // r = d / c
 }
 
 void driveRaw(int amount) {
-	SensorValue[leftEncoder] = 0;
-	SensorValue[rightEncoder] = 0;
+	const float slowMult = .9;
+	
+	resetDriveEncoders();
 
 	if (amount > 0) {
 		// for driving forward
-		driveSpeed(WHEELS_FORWARD * .5);
-		while((SensorValue[liftEncoder] <= amount))
+		while(getDriveEncoderAvg() <= amount) {
+			if (getLeftEncoder() > getRightEncoder()) {
+				// left side is faster -- needs to slow down
+				leftWheels(WHEELS_FORWARD * slowMult);
+				rightWheels(WHEELS_FORWARD)
+			}
+			else {
+				// right side is faster
+				leftWheels(WHEELS_FORWARD);
+				rightWheels(WHEELS_FORWARD * slowMult);
+			}
+			
 			wait1Msec(10); // let other tasks run
-		driveSpeed(WHEELS_BACKWARD * .1); // kill the momentum
+		}
+		driveSpeed(WHEELS_BACKWARD); // kill the momentum
 	}
 	else {
 		// for driving backward
-		driveSpeed(WHEELS_BACKWARD * .5);
-		while((SensorValue[liftEncoder] >= amount))
+		while(getDriveEncoderAvg() >= amount) {
+			if (getLeftEncoder() < getRightEncoder()) {
+				// left side is faster -- needs to slow down
+				leftWheels(WHEELS_BACKWARD * .9);
+				rightWheels(WHEELS_BACKWARD)
+			}
+			else {
+				// right side is faster
+				leftWheels(WHEELS_BACKWARD);
+				rightWheels(WHEELS_BACKWARD * .9);
+			}
+			
 			wait1Msec(10); // let other tasks run
-		driveSpeed(WHEELS_FORWARD * .1); // kill the momentum
+		}
+		driveSpeed(WHEELS_FORWARD); // kill the momentum
 	}
 
-	wait1Msec(50);
+	wait1Msec(90);
 	stopWheels();
 }
-<<<<<<< HEAD
-=======
 
 void rotateDeg(float deg) {
 #warning "    sensors::rotateDeg() not implemented"
@@ -50,15 +78,26 @@ void setMobileCapturePos(int position) {
   // uses mobile capture encoder to move the mobile capture to position
 }
 
-void lockLift() {
-	// max lift val = 850
-	const int x = SensorValue[liftEncoder];
 
-  // quadratic
-	//int speed = -5 - 0.06143791*x - 0.0000307574*x*x;
-  // cubic
-	int speed = -5 - 0.05198773*x + 0.00009384581*x*x + 1.579372*pow(10,-7)*x*x*x;
-
-	liftSpeed(speed);
+void resetDriveEncoders() {
+	SensorValue[leftEncoder] = 0;
+	SensorValue[rightEncoder] = 0;
 }
->>>>>>> a14040366bab6c1efa5653be54b1cfec5bc83cf5
+int getDriveEncoderAvg() {
+	return (getRightEncoder() + getLeftEncoder()) / 2;
+}
+int getRightEncoder() {
+	// right encoder returns negative values for forward
+	return -SensorValue[rightEncoder];
+}
+int getLeftEncoder() {
+	return SensorValue[leftEncoder];
+}
+void resetGyro() {
+  SensorType[gyroSens] = sensorNone;
+  wait1Msec(1000);
+  SensorType[gyroSens] = sensorGyro;
+}
+int getGyro() {
+  return SensorValue[gyroSens] - 1800;
+}

@@ -4,14 +4,14 @@
 void autonBlue();
 
 // auton steps
-void b_scorePreload();
-void b_moveToBackBar();
-void b_grabFirstMobileGoal();
-void b_firstCorrectionTurn();
-void b_grabSecondMobileGoal();
-void b_scoreSecondCode();
-void b_moveToBar();
-void b_scoreMobileGoal();
+void b_scorePreloadOnStationaryGoal();
+void b_pickUpRightCone();
+void b_putConeOnMobileBase();
+void b_scoreMobileBase();
+
+// other definitions
 
 #include "autonBlue.c"
 #endif // _AUTON_BLUE_H_
+
+

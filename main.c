@@ -1,6 +1,6 @@
 #pragma config(UART_Usage, UART1, uartVEXLCD, baudRate19200, IOPins, None, None)
 #pragma config(I2C_Usage, I2C1, i2cSensors)
-#pragma config(Sensor, in3,    gyroSens,       sensorGyro)
+#pragma config(Sensor, in1,    gyroSens,       sensorGyro)
 #pragma config(Sensor, dgtl2,  pistonTwo,      sensorDigitalOut)
 #pragma config(Sensor, dgtl3,  pistonOne,      sensorDigitalOut)
 #pragma config(Sensor, I2C_1,  leftEncoder,    sensorQuadEncoderOnI2CPort,    , AutoAssign)
