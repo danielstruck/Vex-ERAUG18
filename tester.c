@@ -25,18 +25,30 @@ void stall();
 void info(int line, const string s);
 void testDrive();
 
+task turn() {
+	resetGyro();
+
+	rotateDeg(-90);
+}
 task main() {
 	// test code here
+	startTask(turn);
 	while (1) {
+		clearLCDLine(0);
 		displayLCDNumber(0, 0, getGyro());
+		wait1Msec(5);
 	}
 }
 
 void stall() {
-	while ((int)nLCDButtons == 0)
-		/* stall for button to be pressed */;
-	while ((int)nLCDButtons != 0)
+	while ((int)nLCDButtons == 0) {
+		/* stall for button to be pressed */
+		wait1Msec(50);
+	}
+	while ((int)nLCDButtons != 0) {
 		/* stall for button to be released */;
+		wait1Msec(50);
+	}
 }
 
 void info(int line, const string s) {

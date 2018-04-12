@@ -14,7 +14,7 @@ void driveInches(float inches) {
 
 void driveRaw(int amount) {
 	const float slowMult = .9;
-	
+
 	resetDriveEncoders();
 
 	if (amount > 0) {
@@ -23,14 +23,14 @@ void driveRaw(int amount) {
 			if (getLeftEncoder() > getRightEncoder()) {
 				// left side is faster -- needs to slow down
 				leftWheels(WHEELS_FORWARD * slowMult);
-				rightWheels(WHEELS_FORWARD)
+				rightWheels(WHEELS_FORWARD);
 			}
 			else {
 				// right side is faster
 				leftWheels(WHEELS_FORWARD);
 				rightWheels(WHEELS_FORWARD * slowMult);
 			}
-			
+
 			wait1Msec(10); // let other tasks run
 		}
 		driveSpeed(WHEELS_BACKWARD); // kill the momentum
@@ -41,14 +41,14 @@ void driveRaw(int amount) {
 			if (getLeftEncoder() < getRightEncoder()) {
 				// left side is faster -- needs to slow down
 				leftWheels(WHEELS_BACKWARD * .9);
-				rightWheels(WHEELS_BACKWARD)
+				rightWheels(WHEELS_BACKWARD);
 			}
 			else {
 				// right side is faster
 				leftWheels(WHEELS_BACKWARD);
 				rightWheels(WHEELS_BACKWARD * .9);
 			}
-			
+
 			wait1Msec(10); // let other tasks run
 		}
 		driveSpeed(WHEELS_FORWARD); // kill the momentum
@@ -60,12 +60,26 @@ void driveRaw(int amount) {
 
 void rotateDeg(float deg) {
 #warning "    sensors::rotateDeg() not implemented"
+  deg *= 10;
+  if (deg < 0) { // right turn
+    int speed = (WHEELS_FORWARD);
+	
+    leftWheels(speed);
+	rightWheels(-speed);
+	while (getGyro() > deg)
+	  wait1Msec(5); // let other tasks run
+	leftWheels(-speed);
+	rightWheels(speed);
+  }
+  else { // left turn
+    
+  }
   // uses the gyro to rotate to deg (gyro value of 1 = 1/10 degree)
 }
 
 void rotateRaw(int amount) {
 #warning "    sensors::rotateRaw() not implemented"
-  // uses the gyroscope's raw value to rotate
+  // uses the wheel encoder's raw value to rotate
 }
 
 void setLiftPos(int position) {
@@ -93,11 +107,13 @@ int getRightEncoder() {
 int getLeftEncoder() {
 	return SensorValue[leftEncoder];
 }
+
 void resetGyro() {
   SensorType[gyroSens] = sensorNone;
   wait1Msec(1000);
   SensorType[gyroSens] = sensorGyro;
 }
 int getGyro() {
+// #error "replace gyro"
   return SensorValue[gyroSens] - 1800;
 }

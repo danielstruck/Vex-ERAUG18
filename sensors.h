@@ -2,7 +2,7 @@
 #define _SENSORS_H_
 
 #define WHEEL_DIAMETER       4.12
-#define WHEEL_CIRCUMFERENCE  (3.1415 * WHEEL_DIAMETER)
+const float WHEEL_CIRCUMFERENCE = (3.1415 * WHEEL_DIAMETER);
 #define WHEEL_ROTATION_VALUE 390
 
 void driveInches(float inches);
