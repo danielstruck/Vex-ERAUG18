@@ -1,15 +1,19 @@
 #include "motion.h"
 
+void displayBatteryLevels() {
+	string batteryLevel;
+	sprintf(batteryLevel, "Primary: %.2fV", nImmediateBatteryLevel/1000.0);
+	displayLCDCenteredString(0, batteryLevel);
+	batteryLevel = "";
+	sprintf(batteryLevel, "Backup: %.2fV", BackupBatteryLevel/1000.0);
+	displayLCDCenteredString(1, batteryLevel);
+}
+
 void driveInches(float inches) {
-  // uses wheel encoders to drive a distance in inches
   float rotationsRequired = inches /(1.414 * WHEEL_CIRCUMFERENCE);
   int rawValue = rotationsRequired * WHEEL_ROTATION_VALUE;
-  clearLCDLine(0);
-  displayLCDNumber(0, 0, rotationsRequired);
-  displayLCDNumber(1, 0, rawValue);
+  
   driveRaw(rawValue);
-  // c * r = d
-  // r = d / c
 }
 
 void driveRaw(int amount) {
@@ -40,13 +44,13 @@ void driveRaw(int amount) {
 		while(getDriveEncoderAvg() >= amount) {
 			if (getLeftEncoder() < getRightEncoder()) {
 				// left side is faster -- needs to slow down
-				leftWheels(WHEELS_BACKWARD * .9);
+				leftWheels(WHEELS_BACKWARD * slowMult);
 				rightWheels(WHEELS_BACKWARD);
 			}
 			else {
 				// right side is faster
 				leftWheels(WHEELS_BACKWARD);
-				rightWheels(WHEELS_BACKWARD * .9);
+				rightWheels(WHEELS_BACKWARD * slowMult);
 			}
 
 			wait1Msec(10); // let other tasks run
@@ -59,39 +63,82 @@ void driveRaw(int amount) {
 }
 
 void rotateDeg(float deg) {
-#warning "    sensors::rotateDeg() not implemented"
-  deg *= 10;
-  if (deg < 0) { // right turn
-    int speed = (WHEELS_FORWARD);
-	
-    leftWheels(speed);
-	rightWheels(-speed);
-	while (getGyro() > deg)
-	  wait1Msec(5); // let other tasks run
-	leftWheels(-speed);
-	rightWheels(speed);
-  }
-  else { // left turn
-    
-  }
-  // uses the gyro to rotate to deg (gyro value of 1 = 1/10 degree)
+  int rawValue = deg * ROBOT_ROTATION / 360;
+  rotateRaw(rawValue);
 }
 
 void rotateRaw(int amount) {
-#warning "    sensors::rotateRaw() not implemented"
-  // uses the wheel encoder's raw value to rotate
+  resetDriveEncoders();
+  
+  if (amount > 0) {
+	turnSpeed(TURN_LEFT);
+    while (getRightEncoder() < amount)
+		wait1Msec(10);
+	turnSpeed(TURN_RIGHT);
+  }
+  else {
+	turnSpeed(TURN_RIGHT);
+    while (getRightEncoder() > amount)
+		wait1Msec(10);
+	turnSpeed(TURN_LEFT);
+  }
+  
+  wait1Msec(90);
+  turnSpeed(0);
 }
 
 void setLiftPos(int position) {
-#warning "    sensors::setLiftPos() not implemented"
-  // uses lift encoder to move the lift to position
+// #error "Test sensors::setLiftPos()"
+  if (position < getLiftEncoder()) {
+	liftSpeed(LIFT_DOWN);
+	while (getLiftEncoder() > position)
+	  wait1Msec(10);
+	liftSpeed(LIFT_UP);
+	wait1Msec(90);
+  }
+  else {
+	liftSpeed(LIFT_UP);
+	while(getLiftEncoder() < position)
+	  wait1Msec(10);
+    liftSpeed(LIFT_DOWN);
+    wait1Msec(45); // since gravity helps slow down the lift, there must be a shorter wait time here
+  }
+  
+  lockLift();
 }
 
-void setMobileCapturePos(int position) {
-#warning "    sensors::setMobileCapturePos() not implemented"
-  // uses mobile capture encoder to move the mobile capture to position
+void setCapturePos(int position) {
+// #error "Test sensors::setCapturePos()"
+  if (position < getCaptureEncoder()) {
+	mobileCaptureSpeed(CAPTURE_RETRACT);
+	while (getCaptureEncoder() > position)
+		wait1Msec(10);
+  }
+  else {
+	mobileCaptureSpeed(CAPTURE_EXTEND);
+	while (getCaptureEncoder() < position)
+		wait1Msec(10);
+  }
+  
+  mobileCaptureSpeed(0);
 }
 
+task lockMobile() {	
+	static const int MOBILE_TARGET = -370;
+	static const int MOBILE_ZONE_SZ = 100;
+	if (!mobileCaptureIsLocked) {// only run once
+		mobileCaptureIsLocked = true;
+		while (mobileCaptureIsLocked) {
+			if (SensorValue[mobileEncoder] > MOBILE_TARGET + MOBILE_ZONE_SZ)
+				mobileCaptureSpeed(CAPTURE_EXTEND);
+			else if (SensorValue[mobileEncoder] < MOBILE_TARGET - MOBILE_ZONE_SZ)
+				mobileCaptureSpeed(CAPTURE_RETRACT);
+			else
+				mobileCaptureSpeed(0);
+			wait1Msec(50);
+		}
+	}
+}
 
 void resetDriveEncoders() {
 	SensorValue[leftEncoder] = 0;
@@ -102,18 +149,35 @@ int getDriveEncoderAvg() {
 }
 int getRightEncoder() {
 	// right encoder returns negative values for forward
-	return -SensorValue[rightEncoder];
+	return -(SensorValue[rightEncoder]);
 }
 int getLeftEncoder() {
-	return SensorValue[leftEncoder];
+	return (SensorValue[leftEncoder]);
 }
 
 void resetGyro() {
   SensorType[gyroSens] = sensorNone;
-  wait1Msec(1000);
+  wait1Msec(10);
   SensorType[gyroSens] = sensorGyro;
 }
 int getGyro() {
-// #error "replace gyro"
-  return SensorValue[gyroSens] - 1800;
+  return SensorValue[gyroSens];
+}
+
+int getLiftEncoder() {
+	return -(SensorValue[liftEncoder]);
+}
+
+int getCaptureEncoder() {
+	return -(SensorValue[mobileEncoder]);
+}
+
+void resetSensors() {
+  SensorValue[pistonOne] = 0;
+  SensorValue[pistonTwo] = 0;
+  SensorValue[liftEncoder] = 0;
+  SensorValue[rightEncoder] = 0;
+  SensorValue[mobileEncoder] = 0;
+  SensorValue[liftEncoder] = 0;
+  resetGyro();
 }

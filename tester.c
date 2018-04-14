@@ -3,6 +3,7 @@
 #pragma config(Sensor, in1,    gyroSens,       sensorGyro)
 #pragma config(Sensor, dgtl2,  pistonTwo,      sensorDigitalOut)
 #pragma config(Sensor, dgtl3,  pistonOne,      sensorDigitalOut)
+#pragma config(Sensor, dgtl10, TEST_BUMP,      sensorTouch)
 #pragma config(Sensor, I2C_1,  leftEncoder,    sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_2,  rightEncoder,   sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_3,  mobileEncoder,  sensorQuadEncoderOnI2CPort,    , AutoAssign )
@@ -20,33 +21,35 @@
 #include "motion.h"
 //#include "motionPlus.h"
 #include "sensors.h"
+#include "autonBlue.h"
 
 void stall();
+void countdown(int from);
 void info(int line, const string s);
 void testDrive();
 
-task turn() {
-	resetGyro();
-
-	rotateDeg(-90);
-}
 task main() {
 	// test code here
-	startTask(turn);
-	while (1) {
-		clearLCDLine(0);
-		displayLCDNumber(0, 0, getGyro());
-		wait1Msec(5);
-	}
+	displayBatteryLevels();
+
+  stall();
+  clearLCDLine(0);
+	displayLCDCenteredString(0, "Test Blue Auton");
+
+	setPistons(PISTON_PULL);
+
+	countdown(3);
+	resetSensors();
+	autonBlue();
 }
 
 void stall() {
 	while ((int)nLCDButtons == 0) {
-		/* stall for button to be pressed */
+		/* wait for button to be pressed */
 		wait1Msec(50);
 	}
 	while ((int)nLCDButtons != 0) {
-		/* stall for button to be released */;
+		/* wait for button to be released */;
 		wait1Msec(50);
 	}
 }
@@ -55,6 +58,16 @@ void info(int line, const string s) {
 	clearLCDLine(line);
 	displayLCDString(line, 0, s);
 	stall();
+}
+
+void countdown(int from) {
+	clearLCDLine(0);
+	info(0, "countdown...");
+	for (int i = from; i > 0; --i) {
+		clearLCDLine(0);
+		displayLCDNumber(0, 0, i);
+		wait1Msec(1000);
+	}
 }
 
 void testDrive() {

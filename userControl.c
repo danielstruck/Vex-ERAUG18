@@ -1,22 +1,5 @@
 #include "motion.h"
 
-#define MOBILE_TARGET   -370
-#define MOBILE_ZONE_SZ  100
-
-task lockMobile() {
-	if (!mobileCaptureIsLocked) {// only run once
-		mobileCaptureIsLocked = true;
-		while (mobileCaptureIsLocked) {
-			if (SensorValue[mobileEncoder] > MOBILE_TARGET + MOBILE_ZONE_SZ)
-				mobileCaptureSpeed(CAPTURE_EXTEND);
-			else if (SensorValue[mobileEncoder] < MOBILE_TARGET - MOBILE_ZONE_SZ)
-				mobileCaptureSpeed(CAPTURE_RETRACT);
-			else
-				mobileCaptureSpeed(0);
-			wait1Msec(50);
-		}
-	}
-}
 task usercontrol() {
 	while (true)
 	{

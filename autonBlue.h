@@ -10,6 +10,8 @@ void b_putConeOnMobileBase();
 void b_scoreMobileBase();
 
 // other definitions
+void depositCone();
+void collectCone();
 
 #include "autonBlue.c"
 #endif // _AUTON_BLUE_H_

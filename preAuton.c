@@ -16,24 +16,13 @@ void pre_auton() {
   selectAuton();
 }
 
-void resetSensors() {
-  SensorValue[pistonOne] = 0;
-  SensorValue[pistonTwo] = 0;
-  SensorValue[liftEncoder] = 0;
-  SensorValue[rightEncoder] = 0;
-  SensorValue[mobileEncoder] = 0;
-  SensorValue[liftEncoder] = 0;
-  resetGyro();
-}
-
-void resetGyro() {
-  SensorType[gyroSens] = sensorNone;
-  wait10Msec(100);
-  SensorType[gyroSens] = sensorGyro;
-  wait10Msec(100);
-}
-
 void selectAuton() {
+	string autonNames[nAutons];
+	autonNames[0] = "default";
+	autonNames[1] = "blue";
+	autonNames[2] = "red";
+	autonNames[3] = "skills";
+	
   //Copied from someone's sample code because the documentation for RobotC won't tell me anything useful
   //These should logically work, but I'm not 100% sure
   const short left = 1;
@@ -76,7 +65,7 @@ void selectAuton() {
 
     // TODO draw LCD stuff
     clearLCDLine(1);
-    displayLCDNumber(1, 4, selectedAuton);
+    displayLCDCenteredString(1, autonNames[selectedAuton]);
 
     while (nLCDButtons != 0) {
       /* wait for button to be released */
