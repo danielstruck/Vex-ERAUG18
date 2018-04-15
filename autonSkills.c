@@ -2,5 +2,9 @@
 #include "sensors.h"
 
 void autonSkills() {
-#warning "    autonSkills::autonSkills() not implemented"
+#warning "  autonSkills::autonSkills() not implemented"
 }
+
+// ====== step definitions ======
+
+// =======other definitions=======

@@ -23,25 +23,29 @@
 #include "sensors.h"
 #include "autonBlue.h"
 
+// waits until a LCD button is pressed
 void stall();
-void countdown(int from);
+// stalls, then waits 'secs' seconds
+void countdown(int secs);
+// displays 's' to the LCD on line 'line', then stalls
 void info(int line, const string s);
-void testDrive();
 
 task main() {
-	// test code here
 	displayBatteryLevels();
 
   stall();
   clearLCDLine(0);
 	displayLCDCenteredString(0, "Test Blue Auton");
 
-	setPistons(PISTON_PULL);
-
+	setPistons(PISTON_RETRACT);
 	countdown(3);
 	resetSensors();
 	autonBlue();
 }
+
+//================================================
+//================= DEFINITIONS ==================
+//================================================
 
 void stall() {
 	while ((int)nLCDButtons == 0) {
@@ -60,36 +64,12 @@ void info(int line, const string s) {
 	stall();
 }
 
-void countdown(int from) {
+void countdown(int secs) {
 	clearLCDLine(0);
 	info(0, "countdown...");
-	for (int i = from; i > 0; --i) {
+	for (int i = secs; i > 0; --i) {
 		clearLCDLine(0);
 		displayLCDNumber(0, 0, i);
 		wait1Msec(1000);
-	}
-}
-
-void testDrive() {
-	while(1) {
-		info(0, "LEFT");
-		leftWheels(WHEELS_FORWARD);
-		stall();
-		leftWheels(0);
-
-		info(0, "RIGHT");
-		rightWheels(WHEELS_FORWARD);
-		stall();
-		rightWheels(0);
-
-		info(0, "FRONT");
-		frontWheels(WHEELS_FORWARD);
-		stall();
-		frontWheels(0);
-
-		info(0, "BACK");
-		backWheels(WHEELS_FORWARD);
-		stall();
-		backWheels(0);
 	}
 }

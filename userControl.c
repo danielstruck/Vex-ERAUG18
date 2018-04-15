@@ -1,66 +1,76 @@
 #include "motion.h"
 
 task usercontrol() {
-	while (true)
-	{
-		// Y component, X component, Rotation
-		int strafeVal = C1RX;
-		if (abs(strafeVal) < 20)
-			strafeVal = 0;
-		motor[frontLeft] =    C1LY + strafeVal + C1LX;
-		motor[frontRight] =  -C1LY + strafeVal + C1LX;
-		motor[backRight] =    C1LY + strafeVal - C1LX;
-		motor[backLeft] =    -C1LY + strafeVal - C1LX;
+	while (true) {
+		driveControl();
+		
+		liftControl();
+		
+		drumControl();
+		
+		pistonControl();
+		
+		mobileControl();
+	}
+}
 
-		// Lift Controls
-		if(vexRT [Btn5U] == 1) {
-			liftSpeed(127);
-		}
-		else if(vexRT[Btn5D] == 1) {
-			liftSpeed(-127);
-		}
-		else {
-			lockLift();
-		}
+void driveControl(){
+	// Y component, X component, Rotation
+	int strafeVal = STRAFE_AXIS;
+	if (abs(strafeVal) < 20)
+		strafeVal = 0;
+	
+	motor[frontLeft] =    DIVE_AXIS + strafeVal + ROTATE_AXIS;
+	motor[frontRight] =  -DIVE_AXIS + strafeVal + ROTATE_AXIS;
+	motor[backRight] =    DIVE_AXIS + strafeVal - ROTATE_AXIS;
+	motor[backLeft] =    -DIVE_AXIS + strafeVal - ROTATE_AXIS;
+}
 
-		// Friction Drum Controls
-		static int drumIdle = 0;
-		if(vexRT[Btn6U] == 1)
-		{
-			frictionDrumSpeed(127);
-			drumIdle = 10;
-		}
-		else if(vexRT[Btn6D] == 1)
-		{
-			frictionDrumSpeed(-127);
-			drumIdle = 0;
-		}
+void liftControl(){
+	if(LIFT_UP_BTN)
+		liftSpeed(LIFT_UP);
+	else if(LIFT_DOWN_BTN)
+		liftSpeed(LIFT_DOWN);
+	else
+		lockLift();
+}
+
+void drumControl(){
+	static bool shouldIdle = false;
+	if(DRUM_PULL_BTN) {
+		drumSpeed(DRUM_PULL);
+		shouldIdle = true;
+	}
+	else if(DRUM_PUSH_BTN) {
+		drumSpeed(DRUM_PUSH);
+		shouldIdle = false;
+	}
+	else {
+		if (shouldIdle)
+			drumSpeed(DRUM_HOLD);
 		else
-		{
-			frictionDrumSpeed(drumIdle);
-		}
-		//Pneumatics
-		if (vexRT[Btn8D] == 1)
-		{
-			setPistons(PISTON_PULL);
-		}
-		else if (vexRT[Btn8U] == 1)
-		{
-			setPistons(PISTON_PUSH);
-		}
+			drumSpeed(0);
+	}
+}
 
-		//Mobile Goal control
-		if (vexRT[Btn8L] == 1 && !mobileCaptureIsLocked){
-			startTask(lockMobile);
+void pistonControl(){
+	if (PISTON_RETRACT_BTN)
+		setPistons(PISTON_RETRACT);
+	else if (PISTON_EXTEND_BTN)
+		setPistons(PISTON_EXTEND);
+}
+
+void mobileControl(){
+	if (MOBILE_LOCK_BTN && !mobileCaptureIsLocked){
+		startTask(lockMobile);
+	}
+	else {
+		if (abs(MOBILE_AXIS) > 50) {
+			mobileCaptureIsLocked = false;
+			mobileCaptureSpeed(MOBILE_AXIS);
 		}
-		else {
-			if (abs(vexRT[Ch2]) > 50) {
-				mobileCaptureIsLocked = false;
-				mobileCaptureSpeed(vexRT[Ch2]);
-			}
-			else if (!mobileCaptureIsLocked) {
-				mobileCaptureSpeed(0);
-			}
+		else if (!mobileCaptureIsLocked) {
+			mobileCaptureSpeed(0);
 		}
 	}
 }

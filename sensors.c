@@ -24,7 +24,7 @@ void driveRaw(int amount) {
 	if (amount > 0) {
 		// for driving forward
 		while(getDriveEncoderAvg() <= amount) {
-			if (getLeftEncoder() > getRightEncoder()) {
+			if (getLeftDriveEncoder() > getRightDriveEncoder()) {
 				// left side is faster -- needs to slow down
 				leftWheels(WHEELS_FORWARD * slowMult);
 				rightWheels(WHEELS_FORWARD);
@@ -42,7 +42,7 @@ void driveRaw(int amount) {
 	else {
 		// for driving backward
 		while(getDriveEncoderAvg() >= amount) {
-			if (getLeftEncoder() < getRightEncoder()) {
+			if (getLeftDriveEncoder() < getRightDriveEncoder()) {
 				// left side is faster -- needs to slow down
 				leftWheels(WHEELS_BACKWARD * slowMult);
 				rightWheels(WHEELS_BACKWARD);
@@ -62,6 +62,35 @@ void driveRaw(int amount) {
 	stopWheels();
 }
 
+void strafeInches(float inches) {
+#warning "  sensors::strafeInches() not implemented"
+}
+
+void strafeRaw(int amount) {
+#warning "  sensors::strafeRaw() untested"
+	const float slowMult = .9;
+
+	resetDriveEncoders();
+
+	if (amount > 0) {
+		// for strafing right
+		strafeSpeed(STRAFE_RIGHT);
+		while(getRightDriveEncoder() <= amount)
+			wait1Msec(10); // let other tasks run
+		strafeSpeed(STRAFE_LEFT); // kill the momentum
+	}
+	else {
+		// for strafing left
+		strafeSpeed(STRAFE_LEFT);
+		while(getRightDriveEncoder() >= amount)
+			wait1Msec(10); // let other tasks run
+		strafeSpeed(STRAFE_RIGHT); // kill the momentum
+	}
+
+	wait1Msec(90);
+	stopWheels();
+}
+
 void rotateDeg(float deg) {
   int rawValue = deg * ROBOT_ROTATION / 360;
   rotateRaw(rawValue);
@@ -72,13 +101,13 @@ void rotateRaw(int amount) {
   
   if (amount > 0) {
 	turnSpeed(TURN_LEFT);
-    while (getRightEncoder() < amount)
+    while (getRightDriveEncoder() < amount)
 		wait1Msec(10);
 	turnSpeed(TURN_RIGHT);
   }
   else {
 	turnSpeed(TURN_RIGHT);
-    while (getRightEncoder() > amount)
+    while (getRightDriveEncoder() > amount)
 		wait1Msec(10);
 	turnSpeed(TURN_LEFT);
   }
@@ -129,39 +158,15 @@ task lockMobile() {
 	if (!mobileCaptureIsLocked) {// only run once
 		mobileCaptureIsLocked = true;
 		while (mobileCaptureIsLocked) {
-			if (SensorValue[mobileEncoder] > MOBILE_TARGET + MOBILE_ZONE_SZ)
+			if (getCaptureEncoder() > MOBILE_TARGET + MOBILE_ZONE_SZ)
 				mobileCaptureSpeed(CAPTURE_EXTEND);
-			else if (SensorValue[mobileEncoder] < MOBILE_TARGET - MOBILE_ZONE_SZ)
+			else if (getCaptureEncoder() < MOBILE_TARGET - MOBILE_ZONE_SZ)
 				mobileCaptureSpeed(CAPTURE_RETRACT);
 			else
 				mobileCaptureSpeed(0);
 			wait1Msec(50);
 		}
 	}
-}
-
-void resetDriveEncoders() {
-	SensorValue[leftEncoder] = 0;
-	SensorValue[rightEncoder] = 0;
-}
-int getDriveEncoderAvg() {
-	return (getRightEncoder() + getLeftEncoder()) / 2;
-}
-int getRightEncoder() {
-	// right encoder returns negative values for forward
-	return -(SensorValue[rightEncoder]);
-}
-int getLeftEncoder() {
-	return (SensorValue[leftEncoder]);
-}
-
-void resetGyro() {
-  SensorType[gyroSens] = sensorNone;
-  wait1Msec(10);
-  SensorType[gyroSens] = sensorGyro;
-}
-int getGyro() {
-  return SensorValue[gyroSens];
 }
 
 int getLiftEncoder() {
@@ -172,9 +177,35 @@ int getCaptureEncoder() {
 	return -(SensorValue[mobileEncoder]);
 }
 
+void resetDriveEncoders() {
+	SensorValue[leftEncoder] = 0;
+	SensorValue[rightEncoder] = 0;
+}
+
+int getRightDriveEncoder() {
+	// right encoder returns negative values for forward
+	return -(SensorValue[rightEncoder]);
+}
+
+int getLeftDriveEncoder() {
+	return (SensorValue[leftEncoder]);
+}
+
+int getDriveEncoderAvg() {
+	return (getRightDriveEncoder() + getLeftDriveEncoder()) / 2;
+}
+
+void resetGyro() {
+  SensorType[gyroSens] = sensorNone;
+  wait1Msec(10);
+  SensorType[gyroSens] = sensorGyro;
+}
+
+int getGyro() {
+  return SensorValue[gyroSens];
+}
+
 void resetSensors() {
-  SensorValue[pistonOne] = 0;
-  SensorValue[pistonTwo] = 0;
   SensorValue[liftEncoder] = 0;
   SensorValue[rightEncoder] = 0;
   SensorValue[mobileEncoder] = 0;

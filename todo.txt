@@ -1,0 +1,13 @@
+- implement sensors::strafeInches()
+- implement autonSkills::autonSkills()
+- implement autonDefault::autonDefault()
+- implement autonRed::autonRed()
+
+- test preAuton::selectAuton()#autonNames[]
+- test userControl
+	- new drive constants
+- test motion::strafeSpeed()
+- test sensors::strafeRaw()
+	- motion#STRAFE_* also needs testing
+
+- try to get weights for robot parts

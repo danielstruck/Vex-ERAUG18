@@ -1,51 +1,56 @@
 
 void pre_auton() {
-  // Set bStopTasksBetweenModes to false if you want to keep user created tasks running between
-  // Autonomous and Tele-Op modes. You will need to manage all user created tasks if set to false.
+  // Stops all tasks between auton/usercontrol
   bStopTasksBetweenModes = true;
-  //Turns on the Backlight
+
+  // Turns on the LCD's Back light
   bLCDBacklight = true;
 
   resetSensors();
-  
+
+  // start motion+ updater if it has been included
 #ifdef _MOTION_PLUS_H_
-  // start motion plus updater if it has been included
   startTask(motionPlusUpdater);
 #endif // _MOTION_PLUS_H_
 
   selectAuton();
+
+  displayBatteryLevels();
 }
 
 void selectAuton() {
-	string autonNames[nAutons];
-	autonNames[0] = "default";
-	autonNames[1] = "blue";
-	autonNames[2] = "red";
-	autonNames[3] = "skills";
-	
-  //Copied from someone's sample code because the documentation for RobotC won't tell me anything useful
-  //These should logically work, but I'm not 100% sure
-  const short left = 1;
-  const short center = 2;
-  const short right = 4;
+  // string representation of the autons
+  string autonNames[nAutons];
+  autonNames[0] = "default";
+  autonNames[1] = "blue";
+  autonNames[2] = "red";
+  autonNames[3] = "skills";
 
-  selectedAuton = 1;
-  bool autonConfirm = false;
-  displayLCDString(0, 0, "Auton:");
-  displayLCDNumber(1, 4, selectedAuton);
-  while (!autonConfirm) {
-    while (nLCDButtons == 0) {
-      wait1Msec(10); // wait for button to be pressed
-    }
+  // values for the LCD buttons
+  const int left =   1,
+            center = 2,
+            right =  4;
+  
+  
+  displayLCDCenteredString(0, "Auton:");
+  displayLCDCenteredString(1, autonNames[0]);
+  
+  selectedAuton = 0;
+  bool autonConfirmed = false;
+  
+  while (!autonConfirmed) {
+    // wait for LCD button to be pressed
+    while (nLCDButtons == 0)
+      wait1Msec(10);
 
     switch ((int)nLCDButtons) {
-      case left:
+      case left: // decrement auton
         selectedAuton--;
         break;
-      case center:
-        autonConfirm = true;
+      case center: // confirm auton
+        autonConfirmed = true;
         break;
-      case right:
+      case right: // increment auton
         selectedAuton++;
         break;
       case left + center:
@@ -58,18 +63,17 @@ void selectAuton() {
         break;
     }
 
-    if (selectedAuton < 1)
-      selectedAuton = 1;
-    else if (selectedAuton > nAutons)
-      selectedAuton = nAutons;
-
-    // TODO draw LCD stuff
+	// lock 'selectedAuton' between 0 (inclusive) and nAutons (exclusive), applies wrap
+    if (selectedAuton < 0)
+      selectedAuton = nAutons-1;
+    else if (selectedAuton > nAutons-1)
+      selectedAuton = 0;
+    
+    // wait for LCD button to be released
+    while (nLCDButtons != 0)
+      wait1Msec(10);
+	
     clearLCDLine(1);
     displayLCDCenteredString(1, autonNames[selectedAuton]);
-
-    while (nLCDButtons != 0) {
-      /* wait for button to be released */
-      wait1Msec(10);
-    }
   }
 }

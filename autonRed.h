@@ -1,17 +1,14 @@
 #ifndef _AUTON_RED_H_
 #define _AUTON_RED_H_
 
+
+// the auton to be used when playing for the RED side
 void autonRed();
 
-// auton steps
-void r_scorePreload();
-void r_moveToBackBar();
-void r_grabFirstMobileGoal();
-void r_firstCorrectionTurn();
-void r_grabSecondMobileGoal();
-void r_scoreSecondCode();
-void r_moveToBar();
-void r_scoreMobileGoal();
+// ====== step definitions ======
+
+// =======other definitions=======
+
 
 #include "autonRed.c"
 #endif // _AUTON_RED_H_

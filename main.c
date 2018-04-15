@@ -32,15 +32,33 @@
 //Main competition background code...do not modify!
 #include "Vex_Competition_Includes.c"
 
-//#include "motionPlus.h" // must be included before preAuton.h
+//================================================
+//==================== MOTION+ ===================
+//================================================
+
+/*
+#include "motionPlus.h" // must be included before preAuton.h
+*/
+
+//================================================
+//=================== PREAUTON ===================
+//================================================
 
 #define  nAutons 4 // this should be the number of autons we have
 #include "preAuton.h" // must be included after nAutons define
+
+//================================================
+//===================== AUTON ====================
+//================================================
 
 #include "autonDefault.h"
 #include "autonRed.h"
 #include "autonBlue.h"
 #include "autonSkills.h"
 #include "auton.h" // must be included after all other auton header files
+
+//================================================
+//================= USER CONTROL =================
+//================================================
 
 #include "userControl.h"

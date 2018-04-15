@@ -2,11 +2,11 @@
 #include "sensors.h"
 
 void autonBlue() {
-	//last action:
-	//position on field:
-	//lift location:
-	//capture location:
-	//drum speed:
+	//last action:       tmpAct
+	//position on field: tmpPos
+	//lift location:     tmpLift
+	//capture location:  tmpCapt
+	//drum speed:        tmpDrum
 
 //==================================================
 
@@ -41,18 +41,18 @@ void autonBlue() {
 	//drum speed:        off
 
 	b_scoreMobileBase();
-
-	//last action:
-	//position on field:
-	//lift location:
-	//capture location:
-	//drum speed:
+	
+	//last action:       scored mobile goal in 20pt zone
+	//position on field: near start
+	//lift location:     high goal
+	//capture location:  extended
+	//drum speed:        off
 }
 
 // ====== step definitions ======
 void b_scorePreloadOnStationaryGoal() {
-	setPistons(PISTON_PUSH);
-	frictionDrumSpeed(DRUM_HOLD);
+	setPistons(PISTON_EXTEND);
+	drumSpeed(DRUM_HOLD);
 	setLiftPos(LIFT_HEIGHT_TOP);
 	driveInches(20);
 	//--at goal--
@@ -60,7 +60,7 @@ void b_scorePreloadOnStationaryGoal() {
 	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	depositCone();
 	setLiftPos(LIFT_HEIGHT_TOP);
-	frictionDrumSpeed(0);
+	drumSpeed(0);
 	//--deposited cone--
 }
 
@@ -89,28 +89,28 @@ void b_putConeOnMobileBase() {
 }
 
 void b_scoreMobileBase() {
-	setCapturePos(CAPTURE_EXTENDED);
 	driveInches(9);
 	startTask(lockMobile);
 	// base captured
 	rotateDeg(ROTATE_LEFT_1_DEG * 45);
-	// facing oposite of 20pt goal
+	// facing opposite of 20pt goal
 	driveInches(-35); // drive part of the way to avoid the cones
 	rotateDeg(ROTATE_LEFT_1_DEG * 180);
 	// facing 20pt goal
 	driveInches(40);
 	// at 20pt zone
 	setCapturePos(CAPTURE_EXTENDED);
+	driveInches(-20);
 }
 
-// ===== other definitions =====
+// =======other definitions=======
 void depositCone() {
-	frictionDrumSpeed(DRUM_PUSH);
+	drumSpeed(DRUM_PUSH);
 	wait1Msec(500);
-	frictionDrumSpeed(0);
+	drumSpeed(0);
 }
 void collectCone() {
-	frictionDrumSpeed(DRUM_PULL);
+	drumSpeed(DRUM_PULL);
 	wait1Msec(500);
-	frictionDrumSpeed(0);
+	drumSpeed(0);
 }

@@ -2,7 +2,9 @@
 #include "sensors.h"
 
 void autonRed() {
-#warning "    !!!autonRed() not implemented!!!"
+#warning "  autonRed::autonRed() not implemented"
 }
 
 // ====== step definitions ======
+
+// =======other definitions=======
