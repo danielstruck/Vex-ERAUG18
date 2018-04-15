@@ -10,10 +10,10 @@ void displayBatteryLevels() {
 }
 
 void driveInches(float inches) {
-  float rotationsRequired = inches /(1.414 * WHEEL_CIRCUMFERENCE);
-  int rawValue = rotationsRequired * WHEEL_ROTATION_VALUE;
-  
-  driveRaw(rawValue);
+	float rotationsRequired = inches /(1.414 * WHEEL_CIRCUMFERENCE);
+	int rawValue = rotationsRequired * WHEEL_ROTATION_VALUE;
+
+	driveRaw(rawValue);
 }
 
 void driveRaw(int amount) {
@@ -92,67 +92,67 @@ void strafeRaw(int amount) {
 }
 
 void rotateDeg(float deg) {
-  int rawValue = deg * ROBOT_ROTATION / 360;
-  rotateRaw(rawValue);
+	int rawValue = deg * ROBOT_ROTATION / 360;
+	rotateRaw(rawValue);
 }
 
 void rotateRaw(int amount) {
-  resetDriveEncoders();
-  
-  if (amount > 0) {
-	turnSpeed(TURN_LEFT);
-    while (getRightDriveEncoder() < amount)
-		wait1Msec(10);
-	turnSpeed(TURN_RIGHT);
-  }
-  else {
-	turnSpeed(TURN_RIGHT);
-    while (getRightDriveEncoder() > amount)
-		wait1Msec(10);
-	turnSpeed(TURN_LEFT);
-  }
-  
-  wait1Msec(90);
-  turnSpeed(0);
+	resetDriveEncoders();
+
+	if (amount > 0) {
+		turnSpeed(TURN_LEFT);
+		while (getRightDriveEncoder() < amount)
+			wait1Msec(10);
+		turnSpeed(TURN_RIGHT);
+	}
+	else {
+		turnSpeed(TURN_RIGHT);
+		while (getRightDriveEncoder() > amount)
+			wait1Msec(10);
+		turnSpeed(TURN_LEFT);
+	}
+
+	wait1Msec(90);
+	turnSpeed(0);
 }
 
 void setLiftPos(int position) {
-// #error "Test sensors::setLiftPos()"
-  if (position < getLiftEncoder()) {
-	liftSpeed(LIFT_DOWN);
-	while (getLiftEncoder() > position)
-	  wait1Msec(10);
-	liftSpeed(LIFT_UP);
-	wait1Msec(90);
-  }
-  else {
-	liftSpeed(LIFT_UP);
-	while(getLiftEncoder() < position)
-	  wait1Msec(10);
-    liftSpeed(LIFT_DOWN);
-    wait1Msec(45); // since gravity helps slow down the lift, there must be a shorter wait time here
-  }
-  
-  lockLift();
+	// #error "Test sensors::setLiftPos()"
+	if (position < getLiftEncoder()) {
+		liftSpeed(LIFT_DOWN);
+		while (getLiftEncoder() > position)
+			wait1Msec(10);
+		liftSpeed(LIFT_UP);
+		wait1Msec(90);
+	}
+	else {
+		liftSpeed(LIFT_UP);
+		while(getLiftEncoder() < position)
+			wait1Msec(10);
+		liftSpeed(LIFT_DOWN);
+		wait1Msec(45); // since gravity helps slow down the lift, there must be a shorter wait time here
+	}
+
+	lockLift();
 }
 
 void setCapturePos(int position) {
-// #error "Test sensors::setCapturePos()"
-  if (position < getCaptureEncoder()) {
-	mobileCaptureSpeed(CAPTURE_RETRACT);
-	while (getCaptureEncoder() > position)
-		wait1Msec(10);
-  }
-  else {
-	mobileCaptureSpeed(CAPTURE_EXTEND);
-	while (getCaptureEncoder() < position)
-		wait1Msec(10);
-  }
-  
-  mobileCaptureSpeed(0);
+	// #error "Test sensors::setCapturePos()"
+	if (position < getCaptureEncoder()) {
+		mobileCaptureSpeed(CAPTURE_RETRACT);
+		while (getCaptureEncoder() > position)
+			wait1Msec(10);
+	}
+	else {
+		mobileCaptureSpeed(CAPTURE_EXTEND);
+		while (getCaptureEncoder() < position)
+			wait1Msec(10);
+	}
+
+	mobileCaptureSpeed(0);
 }
 
-task lockMobile() {	
+task lockMobile() {
 	static const int MOBILE_TARGET = -370;
 	static const int MOBILE_ZONE_SZ = 100;
 	if (!mobileCaptureIsLocked) {// only run once
@@ -196,19 +196,19 @@ int getDriveEncoderAvg() {
 }
 
 void resetGyro() {
-  SensorType[gyroSens] = sensorNone;
-  wait1Msec(10);
-  SensorType[gyroSens] = sensorGyro;
+	SensorType[gyroSens] = sensorNone;
+	wait1Msec(10);
+	SensorType[gyroSens] = sensorGyro;
 }
 
 int getGyro() {
-  return SensorValue[gyroSens];
+	return SensorValue[gyroSens];
 }
 
 void resetSensors() {
-  SensorValue[liftEncoder] = 0;
-  SensorValue[rightEncoder] = 0;
-  SensorValue[mobileEncoder] = 0;
-  SensorValue[liftEncoder] = 0;
-  resetGyro();
+	SensorValue[liftEncoder] = 0;
+	SensorValue[rightEncoder] = 0;
+	SensorValue[mobileEncoder] = 0;
+	SensorValue[liftEncoder] = 0;
+	resetGyro();
 }

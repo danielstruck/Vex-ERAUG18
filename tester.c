@@ -33,8 +33,8 @@ void info(int line, const string s);
 task main() {
 	displayBatteryLevels();
 
-  stall();
-  clearLCDLine(0);
+	stall();
+	clearLCDLine(0);
 	displayLCDCenteredString(0, "Test Blue Auton");
 
 	setPistons(PISTON_RETRACT);

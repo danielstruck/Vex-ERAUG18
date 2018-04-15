@@ -3,13 +3,13 @@
 task usercontrol() {
 	while (true) {
 		driveControl();
-		
+
 		liftControl();
-		
+
 		drumControl();
-		
+
 		pistonControl();
-		
+
 		mobileControl();
 	}
 }
@@ -19,7 +19,7 @@ void driveControl(){
 	int strafeVal = STRAFE_AXIS;
 	if (abs(strafeVal) < 20)
 		strafeVal = 0;
-	
+
 	motor[frontLeft] =    DIVE_AXIS + strafeVal + ROTATE_AXIS;
 	motor[frontRight] =  -DIVE_AXIS + strafeVal + ROTATE_AXIS;
 	motor[backRight] =    DIVE_AXIS + strafeVal - ROTATE_AXIS;
