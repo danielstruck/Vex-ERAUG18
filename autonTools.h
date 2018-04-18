@@ -2,6 +2,10 @@
 #define _AUTON_TOOLS_H_
 
 
+#include "motion.h"
+#include "sensors.h"
+
+
 // pushes a cone out of the friction drums
 void depositCone();
 

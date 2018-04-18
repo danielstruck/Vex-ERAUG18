@@ -20,17 +20,18 @@ void pre_auton() {
 
 void selectAuton() {
 	// values for the LCD buttons
-	const int left =   1;
+	const int left   = 1;
 	const int center = 2;
-	const int right =  4;
+	const int right  = 4;
 
 
 	displayLCDCenteredString(0, "Auton:");
 	displayLCDCenteredString(1, autonNames[0]);
 
 	selectedAuton = 0;
+	bool autonChosen = false;
 
-	while (true) {
+	while (!autonChosen) {
 		// wait for LCD button to be pressed
 		while (nLCDButtons == 0)
 			wait1Msec(10);
@@ -39,20 +40,11 @@ void selectAuton() {
 			case left: // decrement auton
 				selectedAuton--;
 				break;
-			case center: // show battery levels
-				return; // break out of while loop
+			case center: // confirm
+				autonChosen = true;
+				break;
 			case right: // increment auton
 				selectedAuton++;
-				break;
-			case left + center:
-				while ((int)nLCDButtons != 0)
-					displayBatteryLevels();
-				break;
-			case left + right:
-				break;
-			case center + right:
-				break;
-			case left + center + right:
 				break;
 		}
 		

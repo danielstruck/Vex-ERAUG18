@@ -1,6 +1,11 @@
 #ifndef _SENSORS_H_
 #define _SENSORS_H_
 
+
+#include "motion.h"
+#include "tools.h"
+
+
 // wheel constants
 #define WHEEL_DIAMETER           4.12
 #define WHEEL_CIRCUMFERENCE      (3.1415 * WHEEL_DIAMETER)
@@ -20,7 +25,7 @@
 #define LIFT_HEIGHT_MOBILE       250
 // mobile capture positions
 #define CAPTURE_EXTENDED         715
-#define CAPTURE_TOP              (CAPTURE_EXTENDED/2)
+#define CAPTURE_TOP              300
 #define CAPTURE_RETRACTED        50
 
 
@@ -54,6 +59,12 @@ void setLiftPos(int position);
 
 // uses mobile capture encoder to move the mobile capture to position
 void setCapturePos(int position);
+
+// starts task lockCapture() with startTask, for convenience
+void lockCaptureStart();
+
+// stops task lockCapture() by setting 'mobileCaptureIsLocked' to false, for convenience
+void lockCaptureStop();
 
 // locks the mobile capture, call with startTask()
 task lockCapture();

@@ -2,6 +2,11 @@
 #define _AUTON_RED_H_
 
 
+#include "motion.h"
+#include "sensors.h"
+#include "autonTools.h"
+
+
 // the auton to be used when playing for the RED side
 void autonRed();
 

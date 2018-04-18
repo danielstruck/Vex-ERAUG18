@@ -1,5 +1,3 @@
-#include "motion.h"
-#include "tools.h"
 
 void displayBatteryLevels() {
 	string batteryLevel;
@@ -99,8 +97,6 @@ void strafeInches(float inches) {
 
 void strafeRaw(int amount) {
 #warning "  sensors::strafeRaw() untested"
-	const float slowMult = .9;
-
 	resetDriveEncoders();
 
 	if (amount != 0) {
@@ -241,16 +237,23 @@ void setCapturePos(int position) {
 */
 }
 
+void lockCaptureStart() {
+	startTask(lockCapture);
+}
+
+void lockCaptureStop() {
+	mobileCaptureIsLocked = false;
+}
+
 task lockCapture() {
-	static const int MOBILE_TARGET  = 300;
-	static const int MOBILE_ZONE_SZ = 50;
+	static const int SIZE = 50;
 	
 	if (!mobileCaptureIsLocked) { // only run once
 		mobileCaptureIsLocked = true;
 		while (mobileCaptureIsLocked) {
-			if (getCaptureEncoder() < MOBILE_TARGET - MOBILE_ZONE_SZ)
+			if (getCaptureEncoder() < CAPTURE_TOP - SIZE)
 				mobileCaptureSpeed(CAPTURE_EXTEND);
-			else if (getCaptureEncoder() > MOBILE_TARGET + MOBILE_ZONE_SZ)
+			else if (getCaptureEncoder() > CAPTURE_TOP + SIZE)
 				mobileCaptureSpeed(CAPTURE_RETRACT);
 			else
 				mobileCaptureSpeed(0);

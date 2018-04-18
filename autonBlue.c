@@ -1,6 +1,3 @@
-#include "motion.h"
-#include "sensors.h"
-#include "autonTools.h"
 
 void autonBlue() {
 	//last action:       tmpAct
@@ -13,7 +10,7 @@ void autonBlue() {
 
 	//last action:       started match
 	//position on field: at start
-	//lift location:      bottom
+	//lift location:     bottom
 	//capture location:  retracted
 	//drum speed:        off
 
@@ -101,7 +98,7 @@ void b_putConeOnMobileBase() {
 
 void b_scoreMobileBase() {
 	autonDrive(9);
-	startTask(lockCapture); // remember to stop the task
+	lockCaptureStart(); // remember to stop lockCapture
 	
 	// base captured
 	
@@ -118,7 +115,7 @@ void b_scoreMobileBase() {
 	
 	// at 20pt zone
 	
-	stopTask(lockCapture); // remembered to stop the task :)
+	lockCaptureStop(); // remembered to stop lockCapture :)
 	setCapturePos(CAPTURE_EXTENDED);
 	autonDrive(-20);
 	

@@ -1,3 +1,4 @@
+
 task usercontrol() {
 	displayLCDCenteredString(0, "USER CONTROL");
 	
@@ -61,7 +62,7 @@ void pistonControl(){
 
 void mobileControl(){
 	if (MOBILE_LOCK_BTN && !mobileCaptureIsLocked){
-		startTask(lockCapture);
+		lockCaptureStart();
 	}
 	else {
 		if (abs(MOBILE_AXIS) > 50) {

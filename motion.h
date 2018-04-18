@@ -2,6 +2,9 @@
 #define _MOTION_H_
 
 
+#include "sensors.h"
+
+
 // piston states
 #define PISTON_EXTEND     1
 #define PISTON_RETRACT    (1 - PISTON_EXTEND)
