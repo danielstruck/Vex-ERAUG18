@@ -151,15 +151,21 @@ void setCapturePos(int position) {
 	mobileCaptureSpeed(0);
 }
 
+<<<<<<< HEAD
 task lockCapture() {
 	static const int MOBILE_TARGET  = -370;
 	static const int MOBILE_ZONE_SZ = 100;
+=======
+task lockMobile() {
+	static const int MOBILE_TARGET  = 300;
+	static const int MOBILE_ZONE_SZ = 50;
+>>>>>>> 29dd72af9c3993e8c0c8cc386504597201a3a035
 	if (!mobileCaptureIsLocked) {// only run once
 		mobileCaptureIsLocked = true;
 		while (mobileCaptureIsLocked) {
-			if (getCaptureEncoder() > MOBILE_TARGET + MOBILE_ZONE_SZ)
+			if (getCaptureEncoder() < MOBILE_TARGET - MOBILE_ZONE_SZ)
 				mobileCaptureSpeed(CAPTURE_EXTEND);
-			else if (getCaptureEncoder() < MOBILE_TARGET - MOBILE_ZONE_SZ)
+			else if (getCaptureEncoder() > MOBILE_TARGET + MOBILE_ZONE_SZ)
 				mobileCaptureSpeed(CAPTURE_RETRACT);
 			else
 				mobileCaptureSpeed(0);

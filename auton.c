@@ -1,5 +1,10 @@
 
 task autonomous() {
+	displayLCDCenteredString(0, "AUTON");
+	displayLCDCenteredString(1, autonNames[selectedAuton]);
+	
+	startTask(LCDControl);
+	
 	switch (selectedAuton) {
 		case 1:
 		  autonBlue();

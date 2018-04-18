@@ -19,13 +19,6 @@ void pre_auton() {
 }
 
 void selectAuton() {
-	// string representation of the autons
-	string autonNames[nAutons];
-	autonNames[0] = "default";
-	autonNames[1] = "blue";
-	autonNames[2] = "red";
-	autonNames[3] = "skills";
-
 	// values for the LCD buttons
 	const int left =   1;
 	const int center = 2;
@@ -57,6 +50,8 @@ void selectAuton() {
 				selectedAuton++;
 				break;
 			case left + center:
+				while ((int)nLCDButtons != 0)
+					displayBatteryLevels();
 				break;
 			case left + right:
 				break;
