@@ -58,24 +58,16 @@ void b_scorePreloadOnStationaryGoal() {
 	driveInches(19.5);
 	
 	//--at goal--
-<<<<<<< HEAD
 	
 	waitForStabilize();
 	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	depositCone();
 	setLiftPos(LIFT_HEIGHT_TOP);
 	
-=======
-	wait1Msec(500); // wait for robot to stabalize
-	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
-	depositCone();
-	setLiftPos(LIFT_HEIGHT_TOP);
->>>>>>> 29dd72af9c3993e8c0c8cc386504597201a3a035
 	//--deposited cone--
 }
 
 void b_pickUpRightCone() {
-<<<<<<< HEAD
 	driveInches(-7); // avoid clipping the high goal on turn
 	rotateDeg(ROTATE_RIGHT_1_DEG * 53);
 	
@@ -89,22 +81,10 @@ void b_pickUpRightCone() {
 	collectCone();
 	
 	// collected cone
-=======
-	driveInches(-7);
-	setLiftPos(LIFT_HEIGHT_CONE);
-	rotateDeg(ROTATE_RIGHT_1_DEG * 53);
-	//--facing cone--
-	driveInches(47.5);
-	//--at cone--
-	setLiftPos(LIFT_HEIGHT_CONE);
-	collectCone();
-	//--collected cone--
->>>>>>> 29dd72af9c3993e8c0c8cc386504597201a3a035
 }
 
 void b_putConeOnMobileBase() {
 	rotateDeg(ROTATE_RIGHT_1_DEG * 5);
-<<<<<<< HEAD
 	
 	// facing mobile goal
 	
@@ -118,21 +98,10 @@ void b_putConeOnMobileBase() {
 	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	
 	// scored cone on goal
-=======
-	//--facing mobile goal--
-	setLiftPos(LIFT_HEIGHT_MOBILE);
-	driveInches(15);
-	//--cone is over mobile goal--
-	liftSpeed(0);
-	depositCone();
-	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
-	//--scored cone on goal--
->>>>>>> 29dd72af9c3993e8c0c8cc386504597201a3a035
 }
 
 void b_scoreMobileBase() {
 	driveInches(9);
-<<<<<<< HEAD
 	startTask(lockCapture); // remember to stop the task
 	
 	// base captured
@@ -153,17 +122,6 @@ void b_scoreMobileBase() {
 	// at 20pt zone
 	
 	stopTask(lockCapture); // remembered to stop the task :)
-=======
-	startTask(lockMobile);
-	//--base captured--
-	rotateDeg(ROTATE_LEFT_1_DEG * 35);
-	//--facing opposite of 20pt goal--
-	driveInches(-35); // drive part of the way to avoid the cones when rotating
-	rotateDeg(ROTATE_LEFT_1_DEG * 180);
-	//--facing 20pt goal--
-	driveInches(45);
-	//--at 20pt zone--
->>>>>>> 29dd72af9c3993e8c0c8cc386504597201a3a035
 	setCapturePos(CAPTURE_EXTENDED);
 	driveInches(-20);
 	

@@ -14,25 +14,6 @@ void liftSpeed(int speed) {
 	motor[liftRight] = speed;
 }
 
-<<<<<<< HEAD
-=======
-void lockLift() {
-	const static float liftMax  = 850, // the encoder value of the lift when it is at its highest point
-	liftPow  = 33, // the power imparted to the lift when it is at liftMax
-	liftPow0 = 85, // the sensor value at zero power
-	abruptness = 3; // !!must be positive and odd!! - the abruptness of the positive/ negetive switch (13+ is basically a step function)
-
-	static const float denominator = liftMax - liftPow0;
-
-	const int x = getLiftEncoder();
-	float numerator = x - liftPow0;
-	int sign = (numerator == 0)? 0: (abs(numerator/denominator)/(numerator/denominator));
-	int speed = liftPow * pow(abs(numerator / denominator), 1.0/abruptness) * sign;
-
-	liftSpeed(speed);
-}
-
->>>>>>> 29dd72af9c3993e8c0c8cc386504597201a3a035
 void mobileCaptureSpeed(int speed) {
 	motor[mobileCapture] = speed;
 }

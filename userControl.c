@@ -21,18 +21,11 @@ void driveControl(){
 	int strafeVal = STRAFE_AXIS;
 	if (abs(strafeVal) < 20)
 		strafeVal = 0;
-
-<<<<<<< HEAD
-	motor[frontLeft] =   DIVE_AXIS + strafeVal + ROTATE_AXIS;
-	motor[frontRight] = -DIVE_AXIS + strafeVal + ROTATE_AXIS;
-	motor[backRight] =   DIVE_AXIS + strafeVal - ROTATE_AXIS;
-	motor[backLeft] =   -DIVE_AXIS + strafeVal - ROTATE_AXIS;
-=======
+	
 	motor[frontLeft] =    DIVE_AXIS +       strafeVal + ROTATE_AXIS;
 	motor[frontRight] =  -DIVE_AXIS +       strafeVal + ROTATE_AXIS;
 	motor[backRight] =    DIVE_AXIS + .85 * strafeVal - ROTATE_AXIS;
 	motor[backLeft] =    -DIVE_AXIS + .85 * strafeVal - ROTATE_AXIS;
->>>>>>> 29dd72af9c3993e8c0c8cc386504597201a3a035
 }
 
 void liftControl(){
