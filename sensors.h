@@ -28,7 +28,7 @@
 bool mobileCaptureIsLocked;
 
 
-// writes battery levels to LCD
+// displays battery levels on LCD
 void displayBatteryLevels();
 
 // uses wheel encoders to drive a distance in inches

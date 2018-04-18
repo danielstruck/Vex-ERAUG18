@@ -3,15 +3,25 @@
 - implement autonDefault::autonDefault()
 - implement autonRed::autonRed()
 
+- test sensors::driveRaw(), etc
+	- also test dynamic slowMult; remember to remove the "kill the momentum" line, as it will be unnecessary
+- test motion::strafeSpeed()
+- test sensors::strafeRaw()
+	- motion#STRAFE_* also needs testing
+- test sensors::strafeInches();
+
+- fix sensors::driveInches() - does not deal with negative values well
+
+- try to get weights for robot parts
+
+
+============
+====done====
+============
+
+
+- test preauton's center LCD button - should show battery levels
 - test preAuton::selectAuton()#autonNames[]
 - test preAuton::selectAuton() wrapping
 - test userControl
 	- new drive constants
-- test motion::strafeSpeed()
-- test sensors::strafeRaw()
-	- motion#STRAFE_* also needs testing
-- test preauton's center LCD button - should show battery levels
-	
-- fix sensors::driveInches() - does not deal with negative values well
-
-- try to get weights for robot parts

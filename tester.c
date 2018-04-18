@@ -35,9 +35,11 @@ void fullTestSensors();
 void fullTestMotionPlus();
 
 task main() {
-	testAutonBlue();
+	//testAutonBlue();
 	//fullTestMotion();
 	//fullTestSensors();
+	for (int i = 0; i <= 255; ++i)
+		displayLCDChar(0, i%15, (char)i);
 }
 
 //================================================

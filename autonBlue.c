@@ -55,11 +55,10 @@ void b_scorePreloadOnStationaryGoal() {
 	drumSpeed(DRUM_HOLD);
 	setPistons(PISTON_EXTEND);
 	setLiftPos(LIFT_HEIGHT_TOP);
-	driveInches(19.5);
+	autonDrive(19.5);
 	
 	//--at goal--
 	
-	waitForStabilize();
 	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	depositCone();
 	setLiftPos(LIFT_HEIGHT_TOP);
@@ -68,12 +67,12 @@ void b_scorePreloadOnStationaryGoal() {
 }
 
 void b_pickUpRightCone() {
-	driveInches(-7); // avoid clipping the high goal on turn
-	rotateDeg(ROTATE_RIGHT_1_DEG * 53);
+	autonDrive(-7); // avoid clipping the high goal on turn
+	autonRotate(ROTATE_RIGHT_1_DEG * 53);
 	
 	// facing cone
 	
-	driveInches(47.5);
+	autonDrive(47.5);
 	
 	// at cone
 	
@@ -84,12 +83,12 @@ void b_pickUpRightCone() {
 }
 
 void b_putConeOnMobileBase() {
-	rotateDeg(ROTATE_RIGHT_1_DEG * 5);
+	autonRotate(ROTATE_RIGHT_1_DEG * 5);
 	
 	// facing mobile goal
 	
 	setLiftPos(LIFT_HEIGHT_MOBILE);
-	driveInches(15.5);
+	autonDrive(15.5);
 	
 	// cone is over mobile goal
 	
@@ -101,29 +100,27 @@ void b_putConeOnMobileBase() {
 }
 
 void b_scoreMobileBase() {
-	driveInches(9);
+	autonDrive(9);
 	startTask(lockCapture); // remember to stop the task
 	
 	// base captured
 	
-	rotateDeg(ROTATE_LEFT_1_DEG * 35);
+	autonRotate(ROTATE_LEFT_1_DEG * 35);
 	
 	// facing opposite of 20pt goal
 	
-	driveInches(-35); // drive part of the way to avoid the cones
-	waitForStabilize();
-	rotateDeg(ROTATE_LEFT_1_DEG * 180);
-	waitForStabilize();
+	autonDrive(-35); // drive part of the way to avoid the cones
+	autonRotate(ROTATE_LEFT_1_DEG * 180);
 	
 	// facing 20pt goal
 	
-	driveInches(40);
+	autonDrive(40);
 	
 	// at 20pt zone
 	
 	stopTask(lockCapture); // remembered to stop the task :)
 	setCapturePos(CAPTURE_EXTENDED);
-	driveInches(-20);
+	autonDrive(-20);
 	
 	// deposited mobile goal
 }

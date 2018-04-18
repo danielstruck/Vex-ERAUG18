@@ -40,12 +40,7 @@ void selectAuton() {
 				selectedAuton--;
 				break;
 			case center: // show battery levels
-				// wait for LCD button to be released
-				while (nLCDButtons != 0) {
-					displayBatteryLevels();
-					wait1Msec(10);
-				}
-				break;
+				return; // break out of while loop
 			case right: // increment auton
 				selectedAuton++;
 				break;
