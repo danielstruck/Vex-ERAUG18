@@ -8,6 +8,9 @@
 // stores what auton the user wants to use
 int selectedAuton;
 
+// string representation of the autons
+const string autonNames[] = {"default", "blue", "red", "skills"};
+
 
 // pre_auton() is already defined in the competition includes
 

@@ -55,7 +55,7 @@
 #include "autonRed.h"
 #include "autonBlue.h"
 #include "autonSkills.h"
-#include "auton.h" // must be included after all other auton header files
+#include "auton.h" // must be included after all other auton header files and preAuton
 
 //================================================
 //================= USER CONTROL =================

@@ -51,54 +51,53 @@ void autonBlue() {
 
 // ====== step definitions ======
 void b_scorePreloadOnStationaryGoal() {
-	setPistons(PISTON_EXTEND);
 	drumSpeed(DRUM_HOLD);
+	setPistons(PISTON_EXTEND);
 	setLiftPos(LIFT_HEIGHT_TOP);
 	driveInches(20);
 	//--at goal--
-	wait1Msec(500);
+	wait1Msec(500); // wait for robot to stabalize
 	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	depositCone();
 	setLiftPos(LIFT_HEIGHT_TOP);
-	drumSpeed(0);
 	//--deposited cone--
 }
 
 void b_pickUpRightCone() {
 	driveInches(-7);
 	setLiftPos(LIFT_HEIGHT_CONE);
-	rotateDeg(ROTATE_RIGHT_1_DEG * 45);
-	// facing cone
+	rotateDeg(ROTATE_RIGHT_1_DEG * 53);
+	//--facing cone--
 	driveInches(47.5);
-	// at cone
+	//--at cone--
 	setLiftPos(LIFT_HEIGHT_CONE);
 	collectCone();
-	// collected cone
+	//--collected cone--
 }
 
 void b_putConeOnMobileBase() {
 	rotateDeg(ROTATE_RIGHT_1_DEG * 5);
-	// facing mobile goal
+	//--facing mobile goal--
 	setLiftPos(LIFT_HEIGHT_MOBILE);
 	driveInches(15);
-	// cone is over mobile goal
+	//--cone is over mobile goal--
 	liftSpeed(0);
 	depositCone();
 	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
-	// scored cone on goal
+	//--scored cone on goal--
 }
 
 void b_scoreMobileBase() {
 	driveInches(9);
 	startTask(lockMobile);
-	// base captured
-	rotateDeg(ROTATE_LEFT_1_DEG * 45);
-	// facing opposite of 20pt goal
-	driveInches(-35); // drive part of the way to avoid the cones
+	//--base captured--
+	rotateDeg(ROTATE_LEFT_1_DEG * 35);
+	//--facing opposite of 20pt goal--
+	driveInches(-35); // drive part of the way to avoid the cones when rotating
 	rotateDeg(ROTATE_LEFT_1_DEG * 180);
-	// facing 20pt goal
-	driveInches(40);
-	// at 20pt zone
+	//--facing 20pt goal--
+	driveInches(45);
+	//--at 20pt zone--
 	setCapturePos(CAPTURE_EXTENDED);
 	driveInches(-20);
 }

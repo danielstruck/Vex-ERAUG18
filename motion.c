@@ -16,7 +16,7 @@ void liftSpeed(int speed) {
 
 void lockLift() {
 	const static float liftMax  = 850, // the encoder value of the lift when it is at its highest point
-	liftPow  = 35, // the power imparted to the lift when it is at liftMax
+	liftPow  = 33, // the power imparted to the lift when it is at liftMax
 	liftPow0 = 85, // the sensor value at zero power
 	abruptness = 3; // !!must be positive and odd!! - the abruptness of the positive/ negetive switch (13+ is basically a step function)
 
