@@ -27,28 +27,31 @@ void selectAuton() {
 	autonNames[3] = "skills";
 
 	// values for the LCD buttons
-	const int left =   1,
-	center = 2,
-	right =  4;
+	const int left =   1;
+	const int center = 2;
+	const int right =  4;
 
 
 	displayLCDCenteredString(0, "Auton:");
 	displayLCDCenteredString(1, autonNames[0]);
 
 	selectedAuton = 0;
-	bool autonConfirmed = false;
 
-	while (!autonConfirmed) {
+	while (true) {
 		// wait for LCD button to be pressed
 		while (nLCDButtons == 0)
 			wait1Msec(10);
-
+		
 		switch ((int)nLCDButtons) {
 			case left: // decrement auton
 				selectedAuton--;
 				break;
-			case center: // confirm auton
-				autonConfirmed = true;
+			case center: // show battery levels
+				// wait for LCD button to be released
+				while (nLCDButtons != 0) {
+					displayBatteryLevels();
+					wait1Msec(10);
+				}
 				break;
 			case right: // increment auton
 				selectedAuton++;
@@ -62,13 +65,13 @@ void selectAuton() {
 			case left + center + right:
 				break;
 		}
-
+		
 		// lock 'selectedAuton' between 0 (inclusive) and nAutons (exclusive), applies wrap
 		if (selectedAuton < 0)
 			selectedAuton = nAutons-1;
 		else if (selectedAuton > nAutons-1)
 			selectedAuton = 0;
-
+		
 		// wait for LCD button to be released
 		while (nLCDButtons != 0)
 			wait1Msec(10);

@@ -4,9 +4,9 @@
 
 #define PLUS_TIMER        T4
 #define PLUS_CURRENT_TIME time1(PLUS_TIMER)
-// !CAUTION!:
-//   wait times too large will cause velocities to be too unpredictable, while values too small
-//   may not register a sufficient change in position or time
+/* !CAUTION!:
+ *   wait times too large will cause velocities to be too unpredictable, while values too small may not register a sufficient change in position or time
+**/
 #define PLUS_TIMER_WAIT   100
 
 
@@ -21,7 +21,7 @@ typedef struct {
   bool rotates;       // true if the part is not uniform about the joint (like an arm)
 } properties_t;
 
-properties_t *leftDrive, *rightDrive, *lift, *capture;
+properties_t *leftDriveProperties, *rightDriveProperties, *liftProperties, *captureProperties;
 
 
 // setup properties for all encoders, clears 'PLUS_TIMER', and continuously updates velocities
@@ -52,6 +52,7 @@ properties_t* buildProperties(properties_t *p, float currentPosition, float mass
 // constructs all properties_t arguments based on defaults
 static void setupProperties(properties_t *leftDrive, properties_t *rightDrive, properties_t *lift,
                             properties_t *capture);
+
 
 #include "motionPlus.c"
 #endif // _MOTION_PLUS_H_

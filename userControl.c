@@ -20,10 +20,10 @@ void driveControl(){
 	if (abs(strafeVal) < 20)
 		strafeVal = 0;
 
-	motor[frontLeft] =    DIVE_AXIS + strafeVal + ROTATE_AXIS;
-	motor[frontRight] =  -DIVE_AXIS + strafeVal + ROTATE_AXIS;
-	motor[backRight] =    DIVE_AXIS + strafeVal - ROTATE_AXIS;
-	motor[backLeft] =    -DIVE_AXIS + strafeVal - ROTATE_AXIS;
+	motor[frontLeft] =   DIVE_AXIS + strafeVal + ROTATE_AXIS;
+	motor[frontRight] = -DIVE_AXIS + strafeVal + ROTATE_AXIS;
+	motor[backRight] =   DIVE_AXIS + strafeVal - ROTATE_AXIS;
+	motor[backLeft] =   -DIVE_AXIS + strafeVal - ROTATE_AXIS;
 }
 
 void liftControl(){
@@ -46,10 +46,7 @@ void drumControl(){
 		shouldIdle = false;
 	}
 	else {
-		if (shouldIdle)
-			drumSpeed(DRUM_HOLD);
-		else
-			drumSpeed(0);
+		drumSpeed(shouldIdle? DRUM_HOLD: 0);
 	}
 }
 
@@ -62,7 +59,7 @@ void pistonControl(){
 
 void mobileControl(){
 	if (MOBILE_LOCK_BTN && !mobileCaptureIsLocked){
-		startTask(lockMobile);
+		startTask(lockCapture);
 	}
 	else {
 		if (abs(MOBILE_AXIS) > 50) {

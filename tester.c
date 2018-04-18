@@ -29,18 +29,15 @@ void stall();
 void countdown(int secs);
 // displays 's' to the LCD on line 'line', then stalls
 void info(int line, const string s);
+void testAutonBlue();
+void fullTestMotion();
+void fullTestSensors();
+void fullTestMotionPlus();
 
 task main() {
-	displayBatteryLevels();
-
-	stall();
-	clearLCDLine(0);
-	displayLCDCenteredString(0, "Test Blue Auton");
-
-	setPistons(PISTON_RETRACT);
-	countdown(3);
-	resetSensors();
-	autonBlue();
+	testAutonBlue();
+	//fullTestMotion();
+	//fullTestSensors();
 }
 
 //================================================
@@ -60,16 +57,208 @@ void stall() {
 
 void info(int line, const string s) {
 	clearLCDLine(line);
-	displayLCDString(line, 0, s);
+	displayLCDCenteredString(line, s);
 	stall();
 }
 
 void countdown(int secs) {
-	clearLCDLine(0);
 	info(0, "countdown...");
 	for (int i = secs; i > 0; --i) {
 		clearLCDLine(0);
 		displayLCDNumber(0, 0, i);
 		wait1Msec(1000);
 	}
+}
+
+void testAutonBlue() {
+	displayBatteryLevels();
+
+	stall();
+	clearLCDLine(0);
+	displayLCDCenteredString(0, "Test Blue Auton");
+
+	setPistons(PISTON_RETRACT);
+	countdown(3);
+	resetSensors();
+	autonBlue();
+}
+
+void fullTestMotion() {
+#ifdef _MOTION_H_
+	//=============================
+	//========== MOTION ===========
+	//=============================
+	info(0, "motion.h");
+
+	info(1, "PISTON_EXTEND");
+	setPistons(PISTON_EXTEND);
+	wait1Msec(1000);
+
+	info(1, "PISTON_RETRACT");
+	setPistons(PISTON_RETRACT);
+	wait1Msec(1000);
+
+	info(1, "DRUM_PULL");
+	drumSpeed(DRUM_PULL);
+	wait1Msec(1000);
+
+	info(1, "DRUM_PUSH");
+	drumSpeed(DRUM_PUSH);
+	wait1Msec(1000);
+
+	info(1, "DRUM_HOLD");
+	drumSpeed(DRUM_HOLD);
+	wait1Msec(1000);
+
+	info(1, "LIFT_UP");
+	liftSpeed(LIFT_UP);
+	wait1Msec(1000);
+
+	info(1, "CAPTURE_EXTEND");
+	mobileCaptureSpeed(CAPTURE_EXTEND);
+	wait1Msec(1000);
+
+	info(1, "CAPTURE_RETRACT");
+	mobileCaptureSpeed(CAPTURE_RETRACT);
+	wait1Msec(1000);
+
+	info(1, "LIFT_DOWN");
+	liftSpeed(LIFT_DOWN);
+	wait1Msec(1000);
+
+	info(1, "WHEELS_FORWARD");
+	driveSpeed(WHEELS_FORWARD);
+	wait1Msec(1000);
+
+	info(1, "WHEELS_BACKWARD");
+	driveSpeed(WHEELS_BACKWARD);
+	wait1Msec(1000);
+
+	info(1, "STRAFE_RIGHT");
+	strafeSpeed(STRAFE_RIGHT);
+	wait1Msec(1000);
+
+	info(1, "STRAFE_LEFT");
+	strafeSpeed(STRAFE_LEFT);
+	wait1Msec(1000);
+
+	info(1, "TURN_LEFT");
+	turnSpeed(TURN_LEFT);
+	wait1Msec(1000);
+
+	info(1, "TURN_RIGHT");
+	turnSpeed(TURN_RIGHT);
+	wait1Msec(1000);
+#endif // _MOTION_H_
+}
+
+void fullTestMotion() {
+#ifdef _SENSORS_H_
+//=============================
+//========== SENSORS ==========
+//=============================
+	info(0, "sensors.h");
+
+	info(1, "Battery Levels");
+	wait1Msec(1000);
+
+	info(1, "drive 12 inches FORW");
+	driveInches(12);
+	wait1Msec(1000);
+	info(1, "drive 12 inches BACK");
+	driveInches(-12);
+	wait1Msec(1000);
+
+	info(1, "strafe 12 inches R");
+	strafeInches(12);
+	wait1Msec(1000);
+
+	info(1, "strafe 12 inches L");
+	strafeInches(-12);
+	wait1Msec(1000);
+
+	info(1, "rotate 90 degrees R");
+	rotateDeg(ROTATE_RIGHT_1_DEG * 90);
+	wait1Msec(1000);
+
+	info(1, "rotate 90 degrees L");
+	rotateDeg(ROTATE_LEFT_1_DEG * 90);
+	wait1Msec(1000);
+
+	info(1, "LIFT_HEIGHT_TOP");
+	setLiftPos(LIFT_HEIGHT_TOP);
+	wait1Msec(1000);
+
+	info(1, "LIFT_HEIGHT_BOTTOM");
+	setLiftPos(LIFT_HEIGHT_BOTTOM);
+	wait1Msec(1000);
+
+	info(1, "LIFT_HEIGHT_CONE");
+	setLiftPos(LIFT_HEIGHT_CONE);
+	wait1Msec(1000);
+
+	info(1, "LIFT_HEIGHT_HIGH_GOAL");
+	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
+	wait1Msec(1000);
+
+	info(1, "LIFT_HEIGHT_MOBILE");
+	setLiftPos(LIFT_HEIGHT_MOBILE);
+	wait1Msec(1000);
+
+	info(1, "CAPTURE_TOP");
+	setCapturePos(CAPTURE_TOP);
+	wait1Msec(1000);
+
+	info(1, "CAPTURE_EXTENDED");
+	setCapturePos(CAPTURE_EXTENDED);
+	wait1Msec(1000);
+
+	info(1, "CAPTURE_RETRACTED");
+	setCapturePos(CAPTURE_RETRACTED);
+	wait1Msec(1000);
+
+	info(1, "lock capture");
+	startTask(lockCapture);
+	wait1Msec(1000);
+#endif // _SENSORS_H_
+}
+
+void fullTestMotion() {
+#ifdef _MOTION_PLUS_H_
+//=============================
+//========== MOTION + =========
+//=============================
+	startTask(motionPlusUpdater);
+
+	info(0, "motionPlus.h");
+	info(1, "LIFT_HEIGHT_HIGH_GOAL");
+	momentumMove(&liftProperties, LIFT_HEIGHT_HIGH_GOAL);
+	displayLCDCenteredString(0, "actual");
+	displayLCDCenteredString(1, "target");
+	stall();
+	displayLCDNumber(0, 0, getLiftEncoder());
+	displayLCDNumber(0, 0, LIFT_HEIGHT_HIGH_GOAL);
+	stall();
+
+	info(0, "motionPlus.h");
+	info(1, "CAPTURE_TOP");
+	momentumMove(&captureProperties, CAPTURE_TOP);
+	displayLCDCenteredString(0, "actual");
+	displayLCDCenteredString(1, "target");
+	stall();
+	displayLCDNumber(0, 0, getCaptureEncoder());
+	displayLCDNumber(0, 0, CAPTURE_TOP);
+	stall();
+
+	info(0, "motionPlus.h");
+	info(1, "drive raw 2500");
+	driveRaw(2500);
+	momentumStop();
+	displayLCDCenteredString(0, "actual");
+	displayLCDCenteredString(1, "target");
+	stall();
+	displayLCDNumber(0, 0, getDriveEncoderAvg());
+	displayLCDNumber(0, 0, 2500);
+	stall();
+#endif // _MOTION_PLUS_H_
 }

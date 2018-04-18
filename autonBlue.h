@@ -12,11 +12,8 @@ void b_putConeOnMobileBase();
 void b_scoreMobileBase();
 
 // =======other definitions=======
-// pushes a cone out of the friction drums
-void depositCone();
 
-// pulls a cone into the friction drums
-void collectCone();
+
 
 #include "autonBlue.c"
 #endif // _AUTON_BLUE_H_

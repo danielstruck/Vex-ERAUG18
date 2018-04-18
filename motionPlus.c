@@ -1,14 +1,14 @@
 
 task motionPlusUpdater() {
-	setupProperties(leftDrive, rightDrive, lift, capture);
+	setupProperties(leftDriveProperties, rightDriveProperties, liftProperties, captureProperties);
 
 	clearTimer(PLUS_TIMER); // clear timer after building all properties
 	while (true) {
 		// update velocities
-		updateVelocity(leftDrive);
-		updateVelocity(rightDrive);
-		updateVelocity(lift);
-		updateVelocity(capture);
+		updateVelocity(leftDriveProperties);
+		updateVelocity(rightDriveProperties);
+		updateVelocity(liftProperties);
+		updateVelocity(captureProperties);
 
 		// let other tasks work
 		wait1Msec(PLUS_TIMER_WAIT);
@@ -61,45 +61,44 @@ int nPorts, int sensorPort, bool rotates){
 	return p;
 }
 
-static void setupProperties(properties_t *leftDrive, properties_t *rightDrive,
-properties_t *lift, properties_t *capture) {
+static void setupProperties(properties_t *leftDrive, properties_t *rightDrive, properties_t *lift, properties_t *capture) {
 
 	// initial drive positions
-	int leftDrivePos      = SensorValue[leftEncoder],
-	rightDrivePos     = SensorValue[rightEncoder],
-	liftPos           = SensorValue[liftEncoder],
-	capturePos        = SensorValue[mobileEncoder];
+	int leftDrivePos       = SensorValue[leftEncoder],
+		rightDrivePos      = SensorValue[rightEncoder],
+		liftPos            = SensorValue[liftEncoder],
+		capturePos         = SensorValue[mobileEncoder];
 
 #error "    motionPlus::mass not implemented"
 	// part masses
-	int  leftDriveMass     = -1,
-	rightDriveMass    = -1,
-	liftMass          = -1,
-	captureMass       = -1;
+	int leftDriveMass      = -1;
+	int rightDriveMass     = -1;
+	int liftMass           = -1;
+	int captureMass        = -1;
 
 	// motor ports
-	int  leftDrivePorts[]  = {backLeft, frontLeft},
-	rightDrivePorts[] = {backRight, frontRight},
-	liftPorts[]       = {liftLeft, liftRight},
-	capturePorts[]    = {mobileCapture};
+	int leftDrivePorts[]   = {backLeft, frontLeft};
+	int rightDrivePorts[]  = {backRight, frontRight};
+	int liftPorts[]        = {liftLeft, liftRight};
+	int capturePorts[]     = {mobileCapture};
 
 	// number of motors
-	int  leftDriveNPorts   = 2,
-	rightDriveNPorts  = 2,
-	liftNPorts        = 2,
-	captureNPorts     = 1;
+	int leftDriveNPorts    = 2;
+	int rightDriveNPorts   = 2;
+	int liftNPorts         = 2;
+	int captureNPorts      = 1;
 
 	// sensor ports
-	int  leftDriveSensor   = leftEncoder,
-	rightDriveSensor  = rightEncoder,
-	liftSensor        = liftEncoder,
-	captureSensor     = mobileEncoder;
+	int leftDriveSensor    = leftEncoder;
+	int rightDriveSensor   = rightEncoder;
+	int liftSensor         = liftEncoder;
+	int captureSensor      = mobileEncoder;
 
 	// part uniform about joint
-	bool leftDriveRotates  = false,
-	rightDriveRotates = false,
-	liftRotates       = true,
-	captureRotates    = true;
+	bool leftDriveRotates  = false;
+	bool rightDriveRotates = false;
+	bool liftRotates       = true;
+	bool captureRotates    = true;
 
 	buildProperties(leftDrive,   leftDrivePos,  leftDriveMass,  leftDrivePorts,  leftDriveNPorts,  leftDriveSensor,  leftDriveRotates);
 	buildProperties(rightDrive,  rightDrivePos, rightDriveMass, rightDrivePorts, rightDriveNPorts, rightDriveSensor, rightDriveRotates);

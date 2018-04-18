@@ -1,5 +1,6 @@
 #include "motion.h"
 #include "sensors.h"
+#include "autonTools.h"
 
 void autonBlue() {
 	//last action:       tmpAct
@@ -31,7 +32,7 @@ void autonBlue() {
 	//lift location:     cone
 	//capture location:  retracted
 	//drum speed:        hold
-
+	
 	b_putConeOnMobileBase();
 
 	//last action:       scored cone on mobile base
@@ -51,66 +52,80 @@ void autonBlue() {
 
 // ====== step definitions ======
 void b_scorePreloadOnStationaryGoal() {
-	setPistons(PISTON_EXTEND);
 	drumSpeed(DRUM_HOLD);
+	setPistons(PISTON_EXTEND);
 	setLiftPos(LIFT_HEIGHT_TOP);
-	driveInches(20);
+	driveInches(19.5);
+	
 	//--at goal--
-	wait1Msec(500);
+	
+	waitForStabilize();
 	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	depositCone();
 	setLiftPos(LIFT_HEIGHT_TOP);
-	drumSpeed(0);
+	
 	//--deposited cone--
 }
 
 void b_pickUpRightCone() {
-	driveInches(-7);
-	setLiftPos(LIFT_HEIGHT_CONE);
-	rotateDeg(ROTATE_RIGHT_1_DEG * 45);
+	driveInches(-7); // avoid clipping the high goal on turn
+	rotateDeg(ROTATE_RIGHT_1_DEG * 53);
+	
 	// facing cone
+	
 	driveInches(47.5);
+	
 	// at cone
+	
 	setLiftPos(LIFT_HEIGHT_CONE);
 	collectCone();
+	
 	// collected cone
 }
 
 void b_putConeOnMobileBase() {
 	rotateDeg(ROTATE_RIGHT_1_DEG * 5);
+	
 	// facing mobile goal
+	
 	setLiftPos(LIFT_HEIGHT_MOBILE);
-	driveInches(15);
+	driveInches(15.5);
+	
 	// cone is over mobile goal
+	
 	liftSpeed(0);
 	depositCone();
 	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
+	
 	// scored cone on goal
 }
 
 void b_scoreMobileBase() {
 	driveInches(9);
-	startTask(lockMobile);
+	startTask(lockCapture); // remember to stop the task
+	
 	// base captured
-	rotateDeg(ROTATE_LEFT_1_DEG * 45);
+	
+	rotateDeg(ROTATE_LEFT_1_DEG * 35);
+	
 	// facing opposite of 20pt goal
+	
 	driveInches(-35); // drive part of the way to avoid the cones
+	waitForStabilize();
 	rotateDeg(ROTATE_LEFT_1_DEG * 180);
+	waitForStabilize();
+	
 	// facing 20pt goal
+	
 	driveInches(40);
+	
 	// at 20pt zone
+	
+	stopTask(lockCapture); // remembered to stop the task :)
 	setCapturePos(CAPTURE_EXTENDED);
 	driveInches(-20);
+	
+	// deposited mobile goal
 }
 
 // =======other definitions=======
-void depositCone() {
-	drumSpeed(DRUM_PUSH);
-	wait1Msec(500);
-	drumSpeed(0);
-}
-void collectCone() {
-	drumSpeed(DRUM_PULL);
-	wait1Msec(500);
-	drumSpeed(0);
-}

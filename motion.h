@@ -27,10 +27,6 @@
 #define TURN_RIGHT       -TURN_LEFT
 
 
-// control variable for task lockMobile(); - must be global since it is accessed by multiple functions
-bool mobileCaptureIsLocked;
-
-
 // sets the pistons' state
 void setPistons(int state);
 
@@ -39,9 +35,6 @@ void drumSpeed(int speed);
 
 // sets the lift speed
 void liftSpeed(int speed);
-
-// calculates the lock-lift-speed based on a smooth nth root function, n is odd
-void lockLift();
 
 // sets the mobile capture speed
 void mobileCaptureSpeed(int speed);
@@ -69,6 +62,7 @@ void turnSpeed(int speed);
 
 // sets all drive wheels' speed to zero
 void stopWheels();
+
 
 #include "motion.c"
 #endif // _MOTION_H_

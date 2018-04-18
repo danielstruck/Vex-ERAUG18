@@ -117,7 +117,6 @@ void rotateRaw(int amount) {
 }
 
 void setLiftPos(int position) {
-	// #error "Test sensors::setLiftPos()"
 	if (position < getLiftEncoder()) {
 		liftSpeed(LIFT_DOWN);
 		while (getLiftEncoder() > position)
@@ -152,8 +151,8 @@ void setCapturePos(int position) {
 	mobileCaptureSpeed(0);
 }
 
-task lockMobile() {
-	static const int MOBILE_TARGET = -370;
+task lockCapture() {
+	static const int MOBILE_TARGET  = -370;
 	static const int MOBILE_ZONE_SZ = 100;
 	if (!mobileCaptureIsLocked) {// only run once
 		mobileCaptureIsLocked = true;
@@ -169,6 +168,21 @@ task lockMobile() {
 	}
 }
 
+void lockLift() {
+	const static float liftMax    = 850; // the encoder value of the lift when it is at its highest point
+	const static float liftPow    = 35; // the power imparted to the lift when it is at liftMax
+	const static float liftPow0   = 85; // the sensor value at zero power
+	const static float abruptness = 3; // !!must be positive and odd!! - the abruptness of the positive/ negetive switch (13+ is basically a step function)
+	const static float denominator = liftMax - liftPow0;
+
+	const int x = getLiftEncoder();
+	const float numerator = x - liftPow0;
+	const int sign = (numerator == 0)? 0: (abs(numerator/denominator)/(numerator/denominator));
+	const int speed = liftPow * pow(abs(numerator / denominator), 1.0/abruptness) * sign;
+
+	liftSpeed(speed);
+}
+
 int getLiftEncoder() {
 	return -(SensorValue[liftEncoder]);
 }
@@ -178,7 +192,7 @@ int getCaptureEncoder() {
 }
 
 void resetDriveEncoders() {
-	SensorValue[leftEncoder] = 0;
+	SensorValue[leftEncoder]  = 0;
 	SensorValue[rightEncoder] = 0;
 }
 
@@ -206,9 +220,9 @@ int getGyro() {
 }
 
 void resetSensors() {
-	SensorValue[liftEncoder] = 0;
-	SensorValue[rightEncoder] = 0;
+	SensorValue[liftEncoder]   = 0;
+	SensorValue[rightEncoder]  = 0;
 	SensorValue[mobileEncoder] = 0;
-	SensorValue[liftEncoder] = 0;
+	SensorValue[liftEncoder]   = 0;
 	resetGyro();
 }

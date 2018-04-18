@@ -24,6 +24,10 @@
 #define CAPTURE_RETRACTED        50
 
 
+// control variable for task lockCapture(); - must be global since it is accessed by multiple functions
+bool mobileCaptureIsLocked;
+
+
 // writes battery levels to LCD
 void displayBatteryLevels();
 
@@ -52,7 +56,10 @@ void setLiftPos(int position);
 void setCapturePos(int position);
 
 // locks the mobile capture, call with startTask()
-task lockMobile();
+task lockCapture();
+
+// calculates the lock-lift-speed based on a smooth nth root function, n is odd
+void lockLift();
 
 // returns the value of the lift encoder, positive is up
 int getLiftEncoder();
@@ -80,6 +87,7 @@ int getGyro();
 
 // resets all encoders on the robot and the gyro
 void resetSensors();
+
 
 #include "sensors.c"
 #endif // _SENSORS_H_
