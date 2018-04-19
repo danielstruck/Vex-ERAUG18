@@ -10,8 +10,6 @@
 	- motion#STRAFE_* also needs testing
 - test sensors::strafeInches();
 
-- fix sensors::driveInches() - does not deal with negative values well
-
 - try to get weights for robot parts
 
 
@@ -25,3 +23,5 @@
 - test preAuton::selectAuton() wrapping
 - test userControl
 	- new drive constants
+
+- fix sensors::driveInches() - does not deal with negative values well

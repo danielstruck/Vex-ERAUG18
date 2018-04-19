@@ -38,7 +38,7 @@ void autonBlue() {
 
 	//last action:       scored cone on mobile base
 	//position on field: at mobile base
-	//lift location:     high goal
+	//lift location:     top
 	//capture location:  retracted
 	//drum speed:        off
 
@@ -46,7 +46,7 @@ void autonBlue() {
 	
 	//last action:       scored mobile goal in 20pt zone
 	//position on field: near start
-	//lift location:     high goal
+	//lift location:     top
 	//capture location:  extended
 	//drum speed:        off
 }
@@ -55,12 +55,14 @@ void autonBlue() {
 void b_scorePreloadOnStationaryGoal() {
 	drumSpeed(DRUM_HOLD);
 	setPistons(PISTON_EXTEND);
-	setLiftPos(LIFT_HEIGHT_TOP);
+	
+	//--setup complete--
+	
+	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	autonDrive(19.5);
 	
 	//--at goal--
 	
-	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	depositCone();
 	setLiftPos(LIFT_HEIGHT_TOP);
 	
@@ -84,7 +86,7 @@ void b_pickUpRightCone() {
 }
 
 void b_putConeOnMobileBase() {
-	autonRotate(ROTATE_RIGHT_1_DEG * 5);
+	autonRotate(ROTATE_RIGHT_1_DEG * 20);
 	
 	// facing mobile goal
 	
@@ -93,9 +95,8 @@ void b_putConeOnMobileBase() {
 	
 	// cone is over mobile goal
 	
-	liftSpeed(0);
 	depositCone();
-	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
+	setLiftPos(LIFT_HEIGHT_HIGH_GOAL); // so we dont clip the cone
 	
 	// scored cone on goal
 }
@@ -106,16 +107,16 @@ void b_scoreMobileBase() {
 	
 	// base captured
 	
-	autonRotate(ROTATE_LEFT_1_DEG * 35);
+	autonRotate(ROTATE_LEFT_1_DEG * 28);
 	
 	// facing opposite of 20pt goal
 	
-	autonDrive(-35); // drive part of the way to avoid the cones
+	autonDrive(-24); // drive part of the way to avoid the cones
 	autonRotate(ROTATE_LEFT_1_DEG * 180);
 	
 	// facing 20pt goal
 	
-	autonDrive(40);
+	autonDrive(51);
 	
 	// at 20pt zone
 	
