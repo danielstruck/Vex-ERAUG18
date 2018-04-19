@@ -2,11 +2,6 @@
 #define _AUTON_SKILLS_H_
 
 
-#include "motion.h"
-#include "sensors.h"
-#include "autonTools.h"
-
-
 // the auton to be used in the skills challenge
 void autonSkills();
 

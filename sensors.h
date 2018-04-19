@@ -2,10 +2,6 @@
 #define _SENSORS_H_
 
 
-#include "motion.h"
-#include "tools.h"
-
-
 // wheel constants
 #define WHEEL_DIAMETER           4.12
 #define WHEEL_CIRCUMFERENCE      (3.1415 * WHEEL_DIAMETER)

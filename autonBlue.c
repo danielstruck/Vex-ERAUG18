@@ -1,3 +1,7 @@
+#include "motion.h"
+#include "sensors.h"
+#include "autonTools.h"
+
 
 void autonBlue() {
 	//last action:       tmpAct

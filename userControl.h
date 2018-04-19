@@ -2,10 +2,6 @@
 #define _USER_CONTROL_H_
 
 
-#include "motion.h"
-#include "lcdControl.h"
-
-
 // drive controls
 #define STRAFE_AXIS        vexRT[Ch1]
 #define DIVE_AXIS          vexRT[Ch3]

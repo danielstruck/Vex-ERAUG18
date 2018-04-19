@@ -1,3 +1,5 @@
+#include "sensors.h"
+
 
 void setPistons(int state) {
 	SensorValue[pistonOne] = state;

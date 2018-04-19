@@ -1,3 +1,6 @@
+#include "motion.h"
+#include "tools.h"
+
 
 void displayBatteryLevels() {
 	string batteryLevel;

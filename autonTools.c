@@ -1,3 +1,6 @@
+#include "motion.h"
+#include "sensors.h"
+
 
 void depositCone() {
 	drumSpeed(DRUM_PUSH);

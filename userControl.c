@@ -1,3 +1,7 @@
+#include "motion.h"
+#include "lcdControl.h"
+#include "tools.h"
+
 
 task usercontrol() {
 	displayLCDCenteredString(0, "USER CONTROL");

@@ -2,9 +2,6 @@
 #define _PRE_AUTON_H_
 
 
-#include "sensors.h"
-
-
 // stores what auton the user wants to use
 int selectedAuton;
 

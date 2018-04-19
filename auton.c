@@ -1,3 +1,5 @@
+#include "lcdControl.h"
+
 
 task autonomous() {
 	displayLCDCenteredString(0, "AUTON");

@@ -1,3 +1,6 @@
+#include "motion.h"
+#include "tools.h"
+
 
 task motionPlusUpdater() {
 	setupProperties(leftDriveProperties, rightDriveProperties, liftProperties, captureProperties);

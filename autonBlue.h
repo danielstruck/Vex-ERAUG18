@@ -2,11 +2,6 @@
 #define _AUTON_BLUE_H_
 
 
-#include "motion.h"
-#include "sensors.h"
-#include "autonTools.h"
-
-
 // the auton to be used when playing for the BLUE side
 void autonBlue();
 

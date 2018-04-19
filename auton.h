@@ -2,9 +2,6 @@
 #define _AUTON_H_
 
 
-#include "lcdControl.h"
-
-
 // autonomous() is already defined in the competition includes
 
 

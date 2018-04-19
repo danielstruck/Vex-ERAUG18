@@ -1,3 +1,5 @@
+#include "sensors.h"
+
 
 void pre_auton() {
 	// Stops all tasks between auton/usercontrol

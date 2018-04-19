@@ -1,3 +1,7 @@
+#include "motion.h"
+#include "tools.h"
+
+
 task LCDControl() {
 	static const int left   = 1;
 	static const int center = 2;
@@ -33,6 +37,9 @@ task LCDControl() {
 				
 				if (nLCDButtons == left)
 					resetSensors();
+				
+				clearLCDLine(0);
+				clearLCDLine(1);
 				break;
 			default:
 				string line;
