@@ -98,7 +98,7 @@ void testAutonBlue() {
 }
 
 void fullTestMotion() {
-#ifdef _MOTION_H_3
+#ifdef _MOTION_H_
 	//=============================
 	//========== MOTION ===========
 	//=============================
@@ -107,96 +107,109 @@ void fullTestMotion() {
 	info(1, "PISTON_EXTEND");
 	setPistons(PISTON_EXTEND);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "PISTON_RETRACT");
 	setPistons(PISTON_RETRACT);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "DRUM_PULL");
 	drumSpeed(DRUM_PULL);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "DRUM_PUSH");
 	drumSpeed(DRUM_PUSH);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "DRUM_HOLD");
 	drumSpeed(DRUM_HOLD);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "LIFT_UP");
 	liftSpeed(LIFT_UP);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "CAPTURE_EXTEND");
 	mobileCaptureSpeed(CAPTURE_EXTEND);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "CAPTURE_RETRACT");
 	mobileCaptureSpeed(CAPTURE_RETRACT);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "LIFT_DOWN");
 	liftSpeed(LIFT_DOWN);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "WHEELS_FORWARD");
 	driveSpeed(WHEELS_FORWARD);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "WHEELS_BACKWARD");
 	driveSpeed(WHEELS_BACKWARD);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "STRAFE_RIGHT");
 	strafeSpeed(STRAFE_RIGHT);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "STRAFE_LEFT");
 	strafeSpeed(STRAFE_LEFT);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "TURN_LEFT");
 	turnSpeed(TURN_LEFT);
 	wait1Msec(1000);
+	stopAllMotors();
 
 	info(1, "TURN_RIGHT");
 	turnSpeed(TURN_RIGHT);
 	wait1Msec(1000);
+	stopAllMotors();
 #endif // _MOTION_H_
 }
 
-void fullTestMotion() {
+void fullTestSensors() {
 #ifdef _SENSORS_H_
 //=============================
 //========== SENSORS ==========
 //=============================
 	info(0, "sensors.h");
 
-	info(1, "Battery Levels");
+	info(1, "drive 12 inches FORW");
+	driveInches(12, 1);
 	wait1Msec(1000);
 
-	info(1, "drive 12 inches FORW");
-	driveInches(12);
-	wait1Msec(1000);
 	info(1, "drive 12 inches BACK");
-	driveInches(-12);
+	driveInches(-12, 1);
 	wait1Msec(1000);
 
 	info(1, "strafe 12 inches R");
-	strafeInches(12);
+	strafeInches(12, 1);
 	wait1Msec(1000);
 
 	info(1, "strafe 12 inches L");
-	strafeInches(-12);
+	strafeInches(-12, 1);
 	wait1Msec(1000);
 
 	info(1, "rotate 90 degrees R");
-	rotateDeg(ROTATE_RIGHT_1_DEG * 90);
+	rotateDeg(ROTATE_RIGHT_1_DEG * 90, 1);
 	wait1Msec(1000);
 
 	info(1, "rotate 90 degrees L");
-	rotateDeg(ROTATE_LEFT_1_DEG * 90);
+	rotateDeg(ROTATE_LEFT_1_DEG * 90, 1);
 	wait1Msec(1000);
 
 	info(1, "LIFT_HEIGHT_TOP");
@@ -237,7 +250,7 @@ void fullTestMotion() {
 #endif // _SENSORS_H_
 }
 
-void fullTestMotion() {
+void fullTestMotionPlus() {
 #ifdef _MOTION_PLUS_H_
 //=============================
 //========== MOTION + =========

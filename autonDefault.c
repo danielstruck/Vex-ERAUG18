@@ -8,15 +8,15 @@ void autonDefault() {
 	drumSpeed(DRUM_HOLD);
 	setPistons(PISTON_EXTEND);
 	setLiftPos(LIFT_HEIGHT_TOP);
-	driveInches(19.5);
-	
+	driveInches(19.5, .8);
+
 	//--at goal--
-	
+
 	waitForStabilize();
 	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	depositCone();
 	setLiftPos(LIFT_HEIGHT_TOP);
-	
+
 	//--deposited cone--
 }
 

@@ -14,7 +14,7 @@ typedef struct {
   float lastPosition; // last recorded value of the sensor
   float lastTime;     // the time that lastPosition was recorded
   float velocity;     // the velocity of the sensor, based on the difference in position and time
-  float mass;         // the mass of the part
+  float mass;         // the mass of the part (lbs)
   int *motorPorts;    // a list of ports associated with the sensor
   int nPorts;         // the length of *motorPorts
   int sensorPort;     // the index of the sensor of the part
