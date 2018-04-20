@@ -72,12 +72,11 @@ static void setupProperties(properties_t *leftDrive, properties_t *rightDrive, p
 		liftPos            = SensorValue[liftEncoder],
 		capturePos         = SensorValue[mobileEncoder];
 
-#error "    motionPlus::mass not implemented"
-	// part masses
-	int leftDriveMass      = -1;
-	int rightDriveMass     = -1;
-	int liftMass           = -1;
-	int captureMass        = -1;
+	// part masses (lbs)
+	int leftDriveMass      = 16;
+	int rightDriveMass     = 16;
+	int liftMass           = 2.5;
+	int captureMass        = .1;
 
 	// motor ports
 	int leftDrivePorts[]   = {backLeft, frontLeft};

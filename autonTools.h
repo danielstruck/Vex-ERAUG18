@@ -12,13 +12,13 @@ void collectCone();
 void waitForStabilize();
 
 // drives for the specified inches then waits for stabilize
-void autonDrive(float inches);
+void autonDrive(float inches, float mult);
 
 // rotates for the specified degrees then waits for stabilize
-void autonRotate(float degrees);
+void autonRotate(float degrees, float mult);
 
 // strafes for the specified degrees then waits for stabilize
-void autonStrafe(float inches);
+void autonStrafe(float inches, float mult);
 
 
 #include "autonTools.c"

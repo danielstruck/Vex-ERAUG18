@@ -35,17 +35,17 @@ void fullTestSensors();
 void fullTestMotionPlus();
 
 task main() {
-	//testAutonBlue();
+	testAutonBlue();
 	//fullTestMotion();
 	//fullTestSensors();
 
-	while (1) {
-		for (int i = 0; i <= 255; ++i) {
-			displayLCDChar(0, i%15, (char)i);
-			displayLCDNumber(1, i%15, i%10);
-			wait1Msec(50);
-		}
-	}
+	//while (1) {
+	//	for (int i = 0; i <= 255; ++i) {
+	//		displayLCDChar(0, i%15, (char)i);
+	//		displayLCDNumber(1, i%15, i%10);
+	//		wait1Msec(50);
+	//	}
+	//}
 }
 
 //================================================
@@ -86,13 +86,19 @@ void testAutonBlue() {
 	displayLCDCenteredString(0, "Test Blue Auton");
 
 	setPistons(PISTON_RETRACT);
+	liftSpeed(LIFT_UP);
+	wait1Msec(500);
+	mobileCaptureSpeed(CAPTURE_RETRACT);
+	liftSpeed(0);
+	wait1Msec(1000);
+	mobileCaptureSpeed(0);
 	countdown(3);
 	resetSensors();
 	autonBlue();
 }
 
 void fullTestMotion() {
-#ifdef _MOTION_H_
+#ifdef _MOTION_H_3
 	//=============================
 	//========== MOTION ===========
 	//=============================

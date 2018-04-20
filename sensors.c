@@ -11,14 +11,14 @@ void displayBatteryLevels() {
 	displayLCDCenteredString(1, batteryLevel);
 }
 
-void driveInches(float inches) {
+void driveInches(float inches, float mult) {
 	const float rotationsRequired = inches / (1.414 * WHEEL_CIRCUMFERENCE);
 	const int rawValue = rotationsRequired * WHEEL_ROTATION_VALUE;
 
-	driveRaw(rawValue);
+	driveRaw(rawValue, mult);
 }
 
-void driveRaw(int amount) {
+void driveRaw(int amount, float mult) {
 	static float slowMult = .9; // how much slower the faster wheel will move vs the slower wheel
 //	static int slowAt     = 100; // when the robot should start to slow down
 //	static float slowMin  = .5; // min speed for slowing
@@ -26,7 +26,7 @@ void driveRaw(int amount) {
 	resetDriveEncoders();
 	
 	if (amount != 0) {
-		int baseSpeed = signum(amount) * WHEELS_FORWARD;
+		int baseSpeed = signum(amount) * mult * WHEELS_FORWARD;
 		
 		while (abs(getDriveEncoderAvg()) < abs(amount)) {
 			const int diff = getLeftDriveEncoder() - getRightDriveEncoder();
@@ -47,8 +47,8 @@ void driveRaw(int amount) {
 		}
 		
 		driveSpeed(-baseSpeed); // kill the momentum
+		wait1Msec(90);
 	}
-	wait1Msec(90);
 	stopWheels();
 	
 /*
@@ -91,19 +91,19 @@ void driveRaw(int amount) {
 */
 }
 
-void strafeInches(float inches) {
+void strafeInches(float inches, float mult) {
 	const float rotationsRequired = inches / (1.414 * WHEEL_CIRCUMFERENCE);
 	const int rawValue = rotationsRequired * WHEEL_ROTATION_VALUE;
 
-	strafeRaw(rawValue);
+	strafeRaw(rawValue, mult);
 }
 
-void strafeRaw(int amount) {
+void strafeRaw(int amount, float mult) {
 #warning "  sensors::strafeRaw() untested"
 	resetDriveEncoders();
 
 	if (amount != 0) {
-		int baseSpeed = signum(amount) * STRAFE_RIGHT;
+		int baseSpeed = signum(amount) * mult * STRAFE_RIGHT;
 		
 		frontWheels(baseSpeed);
 		backWheels(baseSpeed * REAR_WHEELS_MULT);
@@ -113,8 +113,8 @@ void strafeRaw(int amount) {
 		
 		frontWheels(-baseSpeed);                   // kill the momentum
 		backWheels(-baseSpeed * REAR_WHEELS_MULT); // kill the momentum
+		wait1Msec(90);
 	}
-	wait1Msec(90);
 	stopWheels();
 	
 /*
@@ -138,24 +138,24 @@ void strafeRaw(int amount) {
 */
 }
 
-void rotateDeg(float deg) {
+void rotateDeg(float deg, float mult) {
 	int rawValue = deg * ROBOT_ROTATION / 360;
-	rotateRaw(rawValue);
+	rotateRaw(rawValue, mult);
 }
 
-void rotateRaw(int amount) {
+void rotateRaw(int amount, float mult) {
 	resetDriveEncoders();
 	
 	if (amount != 0) {
-		int baseSpeed = signum(amount) * TURN_LEFT;
+		int baseSpeed = signum(amount) * mult * TURN_LEFT;
 		
 		turnSpeed(baseSpeed);
 		while (abs(getRightDriveEncoder()) < abs(amount))
 			wait1Msec(10);
 		
 		turnSpeed(-baseSpeed);
+		wait1Msec(90);
 	}
-	wait1Msec(90);
 	stopWheels();
 	
 /*
@@ -178,22 +178,28 @@ void rotateRaw(int amount) {
 }
 
 void setLiftPos(int position) {
-	if (position != 0) {
-		int baseSpeed = signum(position) * LIFT_UP;
+	// clearLCDLine(0);
+	// displayLCDNumber(0, 5, position);
+	// if (position != 0) {
+		// const int dist = position - getLiftEncoder();
+	// clearLCDLine(1);
+	// displayLCDNumber(1, 5, dist);
+		// int baseSpeed = signum(dist) * LIFT_UP;
 		
-		liftSpeed(baseSpeed);
-		while (abs(getLiftEncoder()) < abs(position))
-			wait1Msec(10);
+		// liftSpeed(baseSpeed);
+		// while (abs(getLiftEncoder()) < abs(position))
+			// wait1Msec(10);
 		
-		if (signum(baseSpeed) == signum(LIFT_UP))
-			wait1Msec(90);
-		else
-			wait1Msec(45);// since gravity helps slow down the lift, there must be a shorter wait time here
+		// liftSpeed(-baseSpeed);
+		// if (signum(baseSpeed) == signum(LIFT_UP))
+			// wait1Msec(90);
+		// else
+			// wait1Msec(45);// since gravity helps slow down the lift, there must be a shorter wait time here
 		
-		lockLift();
-	}
+		// lockLift();
+	// }
 	
-/*
+
 	if (position < getLiftEncoder()) {
 		liftSpeed(LIFT_DOWN);
 		while (getLiftEncoder() > position)
@@ -210,21 +216,21 @@ void setLiftPos(int position) {
 	}
 
 	lockLift();
-*/
 }
 
 void setCapturePos(int position) {
-	if (position != 0) {
-		int baseSpeed = signum(position) * CAPTURE_EXTEND;
+	// if (position != 0) {
+		// const int dist = position - getCaptureEncoder();
+		// int baseSpeed = signum(position) * CAPTURE_EXTEND;
 		
-		mobileCaptureSpeed(baseSpeed);
-		while (abs(getCaptureEncoder()) < abs(position))
-			wait1Msec(10);
+		// mobileCaptureSpeed(baseSpeed);
+		// while (abs(getCaptureEncoder()) < abs(position))
+			// wait1Msec(10);
 		
-		mobileCaptureSpeed(0);
-	}
+		// mobileCaptureSpeed(0);
+	// }
 	
-/*
+
 	if (position < getCaptureEncoder()) {
 		mobileCaptureSpeed(CAPTURE_RETRACT);
 		while (getCaptureEncoder() > position)
@@ -237,7 +243,7 @@ void setCapturePos(int position) {
 	}
 
 	mobileCaptureSpeed(0);
-*/
+
 }
 
 void lockCaptureStart() {
@@ -267,7 +273,7 @@ task lockCapture() {
 
 void lockLift() {
 	const static float liftMax    = 850; // the encoder value of the lift when it is at its highest point
-	const static float liftPow    = 35; // the power imparted to the lift when it is at liftMax
+	const static float liftPow    = 25; // the power imparted to the lift when it is at liftMax
 	const static float liftPow0   = 85; // the sensor value at zero power
 	const static float abruptness = 3; // !!must be positive and odd!! - the abruptness of the positive/ negetive switch (13+ is basically a step function)
 	const static float denominator = liftMax - liftPow0;

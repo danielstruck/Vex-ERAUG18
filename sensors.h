@@ -18,7 +18,7 @@
 #define LIFT_HEIGHT_BOTTOM       50
 #define LIFT_HEIGHT_CONE         LIFT_HEIGHT_BOTTOM
 #define LIFT_HEIGHT_HIGH_GOAL    735
-#define LIFT_HEIGHT_MOBILE       250
+#define LIFT_HEIGHT_MOBILE       270
 // mobile capture positions
 #define CAPTURE_EXTENDED         715
 #define CAPTURE_TOP              300
@@ -33,22 +33,22 @@ bool mobileCaptureIsLocked;
 void displayBatteryLevels();
 
 // uses wheel encoders to drive a distance in inches
-void driveInches(float inches);
+void driveInches(float inches, float mult);
 
 // rotates the wheels until the average encoder value has magnitude greater than amount
-void driveRaw(int amount);
+void driveRaw(int amount, float mult);
 
 // uses wheel encoders to strafe a distance in inches
-void strafeInches(float inches);
+void strafeInches(float inches, float mult);
 
 // rotates the wheels until the average encoder value has magnitude greater than amount
-void strafeRaw(int amount);
+void strafeRaw(int amount, float mult);
 
 // uses the gyro to rotate to deg (gyro value of 1 = 1/10 degree)
-void rotateDeg(float deg);
+void rotateDeg(float deg, float mult);
 
 // uses the wheel encoder's raw value to rotate
-void rotateRaw(int amount);
+void rotateRaw(int amount, float mult);
 
 // uses lift encoder to move the lift to position
 void setLiftPos(int position);

@@ -38,7 +38,7 @@ void autonBlue() {
 
 	//last action:       scored cone on mobile base
 	//position on field: at mobile base
-	//lift location:     top
+	//lift location:     high
 	//capture location:  retracted
 	//drum speed:        off
 
@@ -46,7 +46,7 @@ void autonBlue() {
 	
 	//last action:       scored mobile goal in 20pt zone
 	//position on field: near start
-	//lift location:     top
+	//lift location:     high
 	//capture location:  extended
 	//drum speed:        off
 }
@@ -58,24 +58,25 @@ void b_scorePreloadOnStationaryGoal() {
 	
 	//--setup complete--
 	
-	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
-	autonDrive(19.5);
+	setLiftPos(LIFT_HEIGHT_TOP);
+	waitForStabilize();
+	autonDrive(21, .8);
 	
 	//--at goal--
 	
+	setLiftPos(LIFT_HEIGHT_HIGH_GOAL);
 	depositCone();
-	setLiftPos(LIFT_HEIGHT_TOP);
 	
 	//--deposited cone--
 }
 
 void b_pickUpRightCone() {
-	autonDrive(-7); // avoid clipping the high goal on turn
-	autonRotate(ROTATE_RIGHT_1_DEG * 53);
+	autonDrive(-21, .8); // avoid clipping the high goal on turn
+	autonRotate(ROTATE_RIGHT_1_DEG * 41, .5);
 	
 	// facing cone
 	
-	autonDrive(47.5);
+	autonDrive(53, .8);
 	
 	// at cone
 	
@@ -86,12 +87,12 @@ void b_pickUpRightCone() {
 }
 
 void b_putConeOnMobileBase() {
-	autonRotate(ROTATE_RIGHT_1_DEG * 20);
+	autonRotate(ROTATE_RIGHT_1_DEG * 20, .5);
 	
 	// facing mobile goal
 	
 	setLiftPos(LIFT_HEIGHT_MOBILE);
-	autonDrive(15.5);
+	autonDrive(15.5, .8);
 	
 	// cone is over mobile goal
 	
@@ -102,27 +103,27 @@ void b_putConeOnMobileBase() {
 }
 
 void b_scoreMobileBase() {
-	autonDrive(9);
+	autonDrive(18, .8);
 	lockCaptureStart(); // remember to stop lockCapture
 	
 	// base captured
 	
-	autonRotate(ROTATE_LEFT_1_DEG * 28);
+	autonRotate(ROTATE_LEFT_1_DEG * 28, .5);
 	
 	// facing opposite of 20pt goal
 	
-	autonDrive(-24); // drive part of the way to avoid the cones
-	autonRotate(ROTATE_LEFT_1_DEG * 180);
+	autonDrive(-24, .8); // drive part of the way to avoid the cones
+	autonRotate(ROTATE_LEFT_1_DEG * 180, .5);
 	
 	// facing 20pt goal
 	
-	autonDrive(51);
+	autonDrive(51, 1);
 	
 	// at 20pt zone
 	
 	lockCaptureStop(); // remembered to stop lockCapture :)
 	setCapturePos(CAPTURE_EXTENDED);
-	autonDrive(-20);
+	autonDrive(-20, .8);
 	
 	// deposited mobile goal
 }
