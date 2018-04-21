@@ -53,14 +53,9 @@ void autonBlue() {
 
 // ====== step definitions ======
 void b_scorePreloadOnStationaryGoal() {
-	drumSpeed(DRUM_HOLD);
-	setPistons(PISTON_EXTEND);
-	
-	//--setup complete--
-	
 	setLiftPos(LIFT_HEIGHT_TOP);
 	waitForStabilize();
-	autonDrive(21, .8);
+	autonDrive(23, DRIVE_INCHES_MULT);
 	
 	//--at goal--
 	
@@ -71,12 +66,12 @@ void b_scorePreloadOnStationaryGoal() {
 }
 
 void b_pickUpRightCone() {
-	autonDrive(-21, .8); // avoid clipping the high goal on turn
-	autonRotate(ROTATE_RIGHT_1_DEG * 41, .5);
+	autonDrive(-23, DRIVE_INCHES_MULT); // avoid clipping the high goal on turn
+	autonRotate(ROTATE_RIGHT_1_DEG * 38, ROTATE_DEGREES_MULT);
 	
 	// facing cone
 	
-	autonDrive(53, .8);
+	autonDrive(57.5, DRIVE_INCHES_MULT);
 	
 	// at cone
 	
@@ -87,12 +82,12 @@ void b_pickUpRightCone() {
 }
 
 void b_putConeOnMobileBase() {
-	autonRotate(ROTATE_RIGHT_1_DEG * 20, .5);
+	autonRotate(ROTATE_RIGHT_1_DEG * 20, ROTATE_DEGREES_MULT);
 	
 	// facing mobile goal
 	
 	setLiftPos(LIFT_HEIGHT_MOBILE);
-	autonDrive(15.5, .8);
+	autonDrive(14, DRIVE_INCHES_MULT);
 	
 	// cone is over mobile goal
 	
@@ -103,27 +98,27 @@ void b_putConeOnMobileBase() {
 }
 
 void b_scoreMobileBase() {
-	autonDrive(18, .8);
+	autonDrive(12, DRIVE_INCHES_MULT);
 	lockCaptureStart(); // remember to stop lockCapture
 	
 	// base captured
 	
-	autonRotate(ROTATE_LEFT_1_DEG * 28, .5);
+	autonRotate(ROTATE_LEFT_1_DEG * 28, ROTATE_DEGREES_MULT);
 	
 	// facing opposite of 20pt goal
 	
-	autonDrive(-24, .8); // drive part of the way to avoid the cones
-	autonRotate(ROTATE_LEFT_1_DEG * 180, .5);
+	autonDrive(-24, DRIVE_INCHES_MULT); // drive part of the way to avoid the cones
+	autonRotate(ROTATE_LEFT_1_DEG * 180, ROTATE_DEGREES_MULT);
 	
 	// facing 20pt goal
 	
-	autonDrive(51, 1);
+	autonDrive(65, 1);
 	
 	// at 20pt zone
 	
 	lockCaptureStop(); // remembered to stop lockCapture :)
 	setCapturePos(CAPTURE_EXTENDED);
-	autonDrive(-20, .8);
+	autonDrive(-20, 1);
 	
 	// deposited mobile goal
 }

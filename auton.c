@@ -7,6 +7,8 @@ task autonomous() {
 	
 	startTask(LCDControl);
 	
+	setupAuton();
+	
 	switch (selectedAuton) {
 		case 1:
 		  autonBlue();

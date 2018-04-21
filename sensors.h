@@ -14,15 +14,20 @@
 #define ROTATE_RIGHT_1_DEG      -1
 #define ROTATE_LEFT_1_DEG       -ROTATE_RIGHT_1_DEG
 // lift positions
-#define LIFT_HEIGHT_TOP          870
+#define LIFT_HEIGHT_TOP          760
 #define LIFT_HEIGHT_BOTTOM       50
 #define LIFT_HEIGHT_CONE         LIFT_HEIGHT_BOTTOM
 #define LIFT_HEIGHT_HIGH_GOAL    735
 #define LIFT_HEIGHT_MOBILE       270
+#define LIFT_HEIGHT_FEEDER       300
+#define LIFT_HEIGHT_FEEDER_WAIT  400
 // mobile capture positions
 #define CAPTURE_EXTENDED         715
 #define CAPTURE_TOP              300
 #define CAPTURE_RETRACTED        50
+// strafe constants
+#define STRAFE_RIGHT_1_INCH      1
+#define STRAFE_LEFT_1_INCH      -STRAFE_RIGHT_1_INCH
 
 
 // control variable for task lockCapture(); - must be global since it is accessed by multiple functions

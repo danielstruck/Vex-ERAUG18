@@ -94,6 +94,7 @@ void testAutonBlue() {
 	mobileCaptureSpeed(0);
 	countdown(3);
 	resetSensors();
+	setupAuton();
 	autonBlue();
 }
 

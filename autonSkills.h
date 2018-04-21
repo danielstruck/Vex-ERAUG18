@@ -6,6 +6,15 @@
 void autonSkills();
 
 // ====== step definitions ======
+void s_moveToMobileGoal();
+
+void s_collectMobileGoal();
+
+void s_moveToFeeder();
+
+void s_collectFedCones();
+
+void s_scoreMobileGoal();
 
 // =======other definitions=======
 

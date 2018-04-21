@@ -9,6 +9,7 @@
 - test sensors::strafeRaw()
 	- motion#STRAFE_* also needs testing
 - test sensors::strafeInches();
+- test sensors#STRAFE_*_1_INCH
 
 - try to get weights for robot parts
 

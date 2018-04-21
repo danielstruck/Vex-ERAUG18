@@ -32,3 +32,8 @@ void autonStrafe(float inches, float mult) {
 	strafeInches(inches, mult);
 	waitForStabilize();
 }
+
+void setupAuton() {
+	drumSpeed(DRUM_HOLD);
+	setPistons(PISTON_EXTEND);
+}

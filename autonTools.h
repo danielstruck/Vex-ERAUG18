@@ -2,6 +2,10 @@
 #define _AUTON_TOOLS_H_
 
 
+#define DRIVE_INCHES_MULT   .5
+#define ROTATE_DEGREES_MULT .5
+
+
 // pushes a cone out of the friction drums
 void depositCone();
 
@@ -19,6 +23,9 @@ void autonRotate(float degrees, float mult);
 
 // strafes for the specified degrees then waits for stabilize
 void autonStrafe(float inches, float mult);
+
+// does setup for all autons
+void setupAuton();
 
 
 #include "autonTools.c"
