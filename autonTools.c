@@ -34,6 +34,8 @@ void autonStrafe(float inches, float mult) {
 }
 
 void setupAuton() {
+	resetSensors();
+	collectCone();
 	drumSpeed(DRUM_HOLD);
 	setPistons(PISTON_EXTEND);
 }

@@ -24,33 +24,33 @@ void driveRaw(int amount, float mult) {
 //	static float slowMin  = .5; // min speed for slowing
 
 	resetDriveEncoders();
-	
+
 	if (amount != 0) {
 		int baseSpeed = signum(amount) * mult * WHEELS_FORWARD;
-		
+
 		while (abs(getDriveEncoderAvg()) < abs(amount)) {
 			const int diff = getLeftDriveEncoder() - getRightDriveEncoder();
 			int speedL = baseSpeed;
 			int speedR = baseSpeed;
-			
+
 //			slowMult = .5 * (abs(diff)/slowAt) + .5; // linear deceleration
-			
+
 			if (diff > 0)      // left is too fast
 				speedL *= slowMult;
 			else if (diff < 0) // right is too fast
 				speedR *= slowMult;
-			
+
 			rightWheels(speedR);
 			leftWheels(speedL);
-			
+
 			wait1Msec(10);
 		}
-		
+
 		driveSpeed(-baseSpeed); // kill the momentum
 		wait1Msec(90);
 	}
 	stopWheels();
-	
+
 /*
 	if (amount > 0) {
 		// for driving forward
@@ -65,7 +65,7 @@ void driveRaw(int amount, float mult) {
 				leftWheels(WHEELS_FORWARD);
 				rightWheels(WHEELS_FORWARD * slowMult);
 			}
-			
+
 			wait1Msec(10); // let other tasks run
 		}
 		driveSpeed(WHEELS_BACKWARD); // kill the momentum
@@ -83,7 +83,7 @@ void driveRaw(int amount, float mult) {
 				leftWheels(WHEELS_BACKWARD);
 				rightWheels(WHEELS_BACKWARD * slowMult);
 			}
-			
+
 			wait1Msec(10); // let other tasks run
 		}
 		driveSpeed(WHEELS_FORWARD); // kill the momentum
@@ -104,19 +104,19 @@ void strafeRaw(int amount, float mult) {
 
 	if (amount != 0) {
 		int baseSpeed = signum(amount) * mult * STRAFE_RIGHT;
-		
+
 		frontWheels(baseSpeed);
 		backWheels(baseSpeed * REAR_WHEELS_MULT);
-		
+
 		while (abs(getDriveEncoderAvg()) < abs(amount))
 			wait1Msec(10);
-		
+
 		frontWheels(-baseSpeed);                   // kill the momentum
 		backWheels(-baseSpeed * REAR_WHEELS_MULT); // kill the momentum
 		wait1Msec(90);
 	}
 	stopWheels();
-	
+
 /*
 	if (amount > 0) {
 		// for strafing right
@@ -145,19 +145,19 @@ void rotateDeg(float deg, float mult) {
 
 void rotateRaw(int amount, float mult) {
 	resetDriveEncoders();
-	
+
 	if (amount != 0) {
 		int baseSpeed = signum(amount) * mult * TURN_LEFT;
-		
+
 		turnSpeed(baseSpeed);
 		while (abs(getRightDriveEncoder()) < abs(amount))
 			wait1Msec(10);
-		
+
 		turnSpeed(-baseSpeed);
 		wait1Msec(90);
 	}
 	stopWheels();
-	
+
 /*
 	if (amount > 0) {
 		turnSpeed(TURN_LEFT);
@@ -171,7 +171,7 @@ void rotateRaw(int amount, float mult) {
 			wait1Msec(10);
 		turnSpeed(TURN_LEFT);
 	}
-	
+
 	wait1Msec(90);
 	stopWheels();
 */
@@ -185,20 +185,20 @@ void setLiftPos(int position) {
 	// clearLCDLine(1);
 	// displayLCDNumber(1, 5, dist);
 		// int baseSpeed = signum(dist) * LIFT_UP;
-		
+
 		// liftSpeed(baseSpeed);
 		// while (abs(getLiftEncoder()) < abs(position))
 			// wait1Msec(10);
-		
+
 		// liftSpeed(-baseSpeed);
 		// if (signum(baseSpeed) == signum(LIFT_UP))
 			// wait1Msec(90);
 		// else
 			// wait1Msec(45);// since gravity helps slow down the lift, there must be a shorter wait time here
-		
+
 		// lockLift();
 	// }
-	
+
 
 	if (position < getLiftEncoder()) {
 		liftSpeed(LIFT_DOWN);
@@ -222,14 +222,14 @@ void setCapturePos(int position) {
 	// if (position != 0) {
 		// const int dist = position - getCaptureEncoder();
 		// int baseSpeed = signum(position) * CAPTURE_EXTEND;
-		
+
 		// mobileCaptureSpeed(baseSpeed);
 		// while (abs(getCaptureEncoder()) < abs(position))
 			// wait1Msec(10);
-		
+
 		// mobileCaptureSpeed(0);
 	// }
-	
+
 
 	if (position < getCaptureEncoder()) {
 		mobileCaptureSpeed(CAPTURE_RETRACT);
@@ -256,7 +256,7 @@ void lockCaptureStop() {
 
 task lockCapture() {
 	static const int SIZE = 50;
-	
+
 	if (!mobileCaptureIsLocked) { // only run once
 		mobileCaptureIsLocked = true;
 		while (mobileCaptureIsLocked) {
@@ -291,7 +291,7 @@ int getLiftEncoder() {
 }
 
 int getCaptureEncoder() {
-	return -SensorValue[mobileEncoder];
+	return (-SensorValue[rightMobileEncoder] + SensorValue[leftMobileEncoder]) / 2;
 }
 
 void resetDriveEncoders() {
@@ -323,9 +323,10 @@ int getGyro() {
 }
 
 void resetSensors() {
-	SensorValue[liftEncoder]   = 0;
-	SensorValue[rightEncoder]  = 0;
-	SensorValue[mobileEncoder] = 0;
-	SensorValue[liftEncoder]   = 0;
+	SensorValue[liftEncoder]        = 0;
+	SensorValue[rightEncoder]       = 0;
+	SensorValue[leftMobileEncoder]  = 0;
+	SensorValue[rightMobileEncoder] = 0;
+	SensorValue[liftEncoder]        = 0;
 	resetGyro();
 }

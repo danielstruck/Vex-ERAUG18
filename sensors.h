@@ -18,7 +18,7 @@
 #define LIFT_HEIGHT_BOTTOM       50
 #define LIFT_HEIGHT_CONE         LIFT_HEIGHT_BOTTOM
 #define LIFT_HEIGHT_HIGH_GOAL    735
-#define LIFT_HEIGHT_MOBILE       270
+#define LIFT_HEIGHT_MOBILE       280
 #define LIFT_HEIGHT_FEEDER       300
 #define LIFT_HEIGHT_FEEDER_WAIT  400
 // mobile capture positions

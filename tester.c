@@ -3,16 +3,16 @@
 #pragma config(Sensor, in1,    gyroSens,       sensorGyro)
 #pragma config(Sensor, dgtl2,  pistonTwo,      sensorDigitalOut)
 #pragma config(Sensor, dgtl3,  pistonOne,      sensorDigitalOut)
-#pragma config(Sensor, dgtl10, TEST_BUMP,      sensorTouch)
 #pragma config(Sensor, I2C_1,  leftEncoder,    sensorQuadEncoderOnI2CPort,    , AutoAssign )
-#pragma config(Sensor, I2C_2,  rightEncoder,   sensorQuadEncoderOnI2CPort,    , AutoAssign )
-#pragma config(Sensor, I2C_3,  mobileEncoder,  sensorQuadEncoderOnI2CPort,    , AutoAssign )
-#pragma config(Sensor, I2C_4,  liftEncoder,    sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Sensor, I2C_2,  leftMobileEncoder, sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Sensor, I2C_3,  rightEncoder,   sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Sensor, I2C_4,  rightMobileEncoder, sensorQuadEncoderOnI2CPort,    , AutoAssign )
+#pragma config(Sensor, I2C_5,  liftEncoder,    sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Motor,  port2,           liftRight,     tmotorVex393HighSpeed_MC29, openLoop, reversed, encoderPort, I2C_4)
 #pragma config(Motor,  port3,           mobileCapture, tmotorVex393_MC29, openLoop, encoderPort, I2C_3)
 #pragma config(Motor,  port4,           frontLeft,     tmotorVex393_MC29, openLoop, driveLeft, encoderPort, I2C_1)
-#pragma config(Motor,  port5,           backRight,     tmotorVex393_MC29, openLoop, driveLeft, encoderPort, I2C_1)
-#pragma config(Motor,  port6,           backLeft,      tmotorVex393_MC29, openLoop, driveRight, encoderPort, I2C_2)
+#pragma config(Motor,  port5,           backLeft,      tmotorVex393_MC29, openLoop, driveLeft, encoderPort, I2C_1)
+#pragma config(Motor,  port6,           backRight,     tmotorVex393_MC29, openLoop, driveRight, encoderPort, I2C_2)
 #pragma config(Motor,  port7,           frontRight,    tmotorVex393_MC29, openLoop, driveRight, encoderPort, I2C_2)
 #pragma config(Motor,  port8,           frictionDrum2, tmotorVex393_MC29, openLoop, reversed)
 #pragma config(Motor,  port9,           liftLeft,      tmotorVex393HighSpeed_MC29, openLoop, encoderPort, I2C_4)
@@ -35,7 +35,12 @@ void fullTestSensors();
 void fullTestMotionPlus();
 
 task main() {
-	testAutonBlue();
+	stall();
+	lockCaptureStart();
+	stall();
+	setCapturePos(CAPTURE_EXTENDED);
+	stall();
+	//testAutonBlue();
 	//fullTestMotion();
 	//fullTestSensors();
 
@@ -93,7 +98,6 @@ void testAutonBlue() {
 	wait1Msec(1000);
 	mobileCaptureSpeed(0);
 	countdown(3);
-	resetSensors();
 	setupAuton();
 	autonBlue();
 }

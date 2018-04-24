@@ -66,12 +66,12 @@ void b_scorePreloadOnStationaryGoal() {
 }
 
 void b_pickUpRightCone() {
-	autonDrive(-23, DRIVE_INCHES_MULT); // avoid clipping the high goal on turn
-	autonRotate(ROTATE_RIGHT_1_DEG * 38, ROTATE_DEGREES_MULT);
+	autonDrive(-20, DRIVE_INCHES_MULT); // avoid clipping the high goal on turn
+	autonRotate(ROTATE_RIGHT_1_DEG * 55, ROTATE_DEGREES_MULT);
 	
 	// facing cone
 	
-	autonDrive(57.5, DRIVE_INCHES_MULT);
+	autonDrive(57, DRIVE_INCHES_MULT);
 	
 	// at cone
 	
@@ -100,19 +100,24 @@ void b_putConeOnMobileBase() {
 void b_scoreMobileBase() {
 	autonDrive(12, DRIVE_INCHES_MULT);
 	lockCaptureStart(); // remember to stop lockCapture
+	wait1Msec(2 * 1000);
 	
 	// base captured
 	
-	autonRotate(ROTATE_LEFT_1_DEG * 28, ROTATE_DEGREES_MULT);
+	//autonRotate(ROTATE_LEFT_1_DEG * 28, ROTATE_DEGREES_MULT);
 	
 	// facing opposite of 20pt goal
 	
 	autonDrive(-24, DRIVE_INCHES_MULT); // drive part of the way to avoid the cones
-	autonRotate(ROTATE_LEFT_1_DEG * 180, ROTATE_DEGREES_MULT);
+	autonRotate(ROTATE_RIGHT_1_DEG * (180 - 25), ROTATE_DEGREES_MULT);
 	
 	// facing 20pt goal
 	
-	autonDrive(65, 1);
+	driveSpeed(WHEELS_FORWARD);
+	wait1Msec(7 * 1000);
+	stopWheels();
+	
+	//autonDrive(65, 1);
 	
 	// at 20pt zone
 	
