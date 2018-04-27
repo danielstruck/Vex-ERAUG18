@@ -19,7 +19,7 @@
 // mobile capture controls
 #define MOBILE_LOCK_BTN    vexRT[Btn8L]
 #define MOBILE_AXIS        vexRT[Ch2]
-
+// drive constants
 
 // usercontrol is already defined in the competition includes
 

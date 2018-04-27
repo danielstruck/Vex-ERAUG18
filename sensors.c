@@ -19,33 +19,33 @@ void driveInches(float inches, float mult) {
 }
 
 void driveRaw(int amount, float mult) {
-	static float slowMult = .9; // how much slower the faster wheel will move vs the slower wheel
-//	static int slowAt     = 100; // when the robot should start to slow down
-//	static float slowMin  = .5; // min speed for slowing
-
+	static float slowMult = .82; // how much slower the faster wheel will move vs the slower wheel
+	static float criticalDifference = 15;
+	static const float waitTimeSec = .001;
+	
 	resetDriveEncoders();
-
+	
 	if (amount != 0) {
 		int baseSpeed = signum(amount) * mult * WHEELS_FORWARD;
-
-		while (abs(getDriveEncoderAvg()) < abs(amount)) {
-			const int diff = getLeftDriveEncoder() - getRightDriveEncoder();
+		
+		
+		const float waitTime = abs(3 * amount / 550);
+		for (float i = 0; i < waitTime && abs(getDriveEncoderAvg()) < abs(amount); i += waitTimeSec) {
+			const float diff = getLeftDriveEncoder() - getRightDriveEncoder();
 			int speedL = baseSpeed;
 			int speedR = baseSpeed;
 
-//			slowMult = .5 * (abs(diff)/slowAt) + .5; // linear deceleration
-
-			if (diff > 0)      // left is too fast
-				speedL *= slowMult;
-			else if (diff < 0) // right is too fast
-				speedR *= slowMult;
+			// if (diff > 0)      // left is too fast
+				// speedL *= 1 - abs(diff/criticalDifference);//slowMult;
+			// else if (diff < 0) // right is too fast
+				// speedR *= 1 - abs(diff/criticalDifference);//slowMult;
 
 			rightWheels(speedR);
 			leftWheels(speedL);
 
-			wait1Msec(10);
+			wait1Msec(waitTimeSec * 1000);
 		}
-
+		
 		driveSpeed(-baseSpeed); // kill the momentum
 		wait1Msec(90);
 	}
@@ -99,20 +99,16 @@ void strafeInches(float inches, float mult) {
 }
 
 void strafeRaw(int amount, float mult) {
-#warning "  sensors::strafeRaw() untested"
 	resetDriveEncoders();
 
 	if (amount != 0) {
 		int baseSpeed = signum(amount) * mult * STRAFE_RIGHT;
 
-		frontWheels(baseSpeed);
-		backWheels(baseSpeed * REAR_WHEELS_MULT);
-
-		while (abs(getDriveEncoderAvg()) < abs(amount))
+		strafeSpeed(baseSpeed);
+		while (abs(getRightDriveEncoder()) < abs(amount))
 			wait1Msec(10);
 
-		frontWheels(-baseSpeed);                   // kill the momentum
-		backWheels(-baseSpeed * REAR_WHEELS_MULT); // kill the momentum
+		strafeSpeed(-baseSpeed); // kill the momentum
 		wait1Msec(90);
 	}
 	stopWheels();
@@ -150,7 +146,7 @@ void rotateRaw(int amount, float mult) {
 		int baseSpeed = signum(amount) * mult * TURN_LEFT;
 
 		turnSpeed(baseSpeed);
-		while (abs(getRightDriveEncoder()) < abs(amount))
+		while (abs(getLeftDriveEncoder()) < abs(amount))
 			wait1Msec(10);
 
 		turnSpeed(-baseSpeed);
@@ -259,13 +255,18 @@ task lockCapture() {
 
 	if (!mobileCaptureIsLocked) { // only run once
 		mobileCaptureIsLocked = true;
-		while (mobileCaptureIsLocked) {
-			if (getCaptureEncoder() < CAPTURE_TOP - SIZE)
+		for (float i = 0; i < 3 && mobileCaptureIsLocked; i += .05) {
+			if (getCaptureEncoder() < CAPTURE_TOP - SIZE) {
 				mobileCaptureSpeed(CAPTURE_EXTEND);
-			else if (getCaptureEncoder() > CAPTURE_TOP + SIZE)
+			}
+			else if (getCaptureEncoder() > CAPTURE_TOP + SIZE) {
 				mobileCaptureSpeed(CAPTURE_RETRACT);
-			else
+			}
+			else {
+				i = 0;
 				mobileCaptureSpeed(0);
+			}
+			
 			wait1Msec(50);
 		}
 	}
@@ -273,7 +274,7 @@ task lockCapture() {
 
 void lockLift() {
 	const static float liftMax    = 850; // the encoder value of the lift when it is at its highest point
-	const static float liftPow    = 25; // the power imparted to the lift when it is at liftMax
+	const static float liftPow    = 20; // the power imparted to the lift when it is at liftMax
 	const static float liftPow0   = 85; // the sensor value at zero power
 	const static float abruptness = 3; // !!must be positive and odd!! - the abruptness of the positive/ negetive switch (13+ is basically a step function)
 	const static float denominator = liftMax - liftPow0;

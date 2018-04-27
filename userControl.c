@@ -29,8 +29,8 @@ void driveControl(){
 	
 	motor[frontLeft] =    DIVE_AXIS +                    strafeVal + ROTATE_AXIS;
 	motor[frontRight] =  -DIVE_AXIS +                    strafeVal + ROTATE_AXIS;
-	motor[backRight] =    DIVE_AXIS + REAR_WHEELS_MULT * strafeVal - ROTATE_AXIS;
-	motor[backLeft] =    -DIVE_AXIS + REAR_WHEELS_MULT * strafeVal - ROTATE_AXIS;
+	motor[backRight] =   -DIVE_AXIS + STRAFE_REAR_MULT * strafeVal - ROTATE_AXIS;
+	motor[backLeft] =     DIVE_AXIS + STRAFE_REAR_MULT * strafeVal - ROTATE_AXIS;
 }
 
 void liftControl(){

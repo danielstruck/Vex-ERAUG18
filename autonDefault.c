@@ -8,7 +8,7 @@ void autonDefault() {
 	drumSpeed(DRUM_HOLD);
 	setPistons(PISTON_EXTEND);
 	setLiftPos(LIFT_HEIGHT_TOP);
-	driveInches(19.5, .8);
+	driveInches(23, .8);
 
 	//--at goal--
 
@@ -18,6 +18,8 @@ void autonDefault() {
 	setLiftPos(LIFT_HEIGHT_TOP);
 
 	//--deposited cone--
+	
+	driveInches(-20, DRIVE_INCHES_MULT);
 }
 
 // ====== step definitions ======

@@ -3,7 +3,7 @@
 
 
 #define DRIVE_INCHES_MULT   .5
-#define ROTATE_DEGREES_MULT .5
+#define ROTATE_DEGREES_MULT .45
 
 
 // pushes a cone out of the friction drums

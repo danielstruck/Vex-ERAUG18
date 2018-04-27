@@ -6,9 +6,12 @@
 void autonRed();
 
 // ====== step definitions ======
+void r_scorePreloadOnStationaryGoal();
+void r_pickUpRightCone();
+void r_putConeOnMobileBase();
+void r_scoreMobileBase();
 
 // =======other definitions=======
-
 
 
 #include "autonRed.c"

@@ -19,24 +19,37 @@ void mobileCaptureSpeed(int speed) {
 	motor[mobileCapture] = speed;
 }
 
+void flSpeed(int speed) {
+	motor[frontLeft] = speed;
+}
+void blSpeed(int speed) {
+	motor[backLeft] = speed;
+}
+void frSpeed(int speed) {
+	motor[frontRight] = -speed;
+}
+void brSpeed(int speed) {
+	motor[backRight] = -speed;
+}
+
 void frontWheels(int speed) {
-	motor[frontLeft]  = speed;
-	motor[frontRight] = speed;
+	flSpeed(speed);
+	frSpeed(-speed);
 }
 
 void backWheels(int speed) {
-	motor[backLeft]  = speed;
-	motor[backRight] = speed;
+	blSpeed(speed);
+	brSpeed(-speed);
 }
 
 void leftWheels(int speed) {
-	motor[frontLeft] = speed;
-	motor[backLeft]  = speed;
+	flSpeed(speed);
+	blSpeed(speed);
 }
 
 void rightWheels(int speed) {
-	motor[frontRight] = -speed;
-	motor[backRight]  = -speed;
+	frSpeed(speed);
+	brSpeed(speed);
 }
 
 void driveSpeed(int speed) {
@@ -45,7 +58,6 @@ void driveSpeed(int speed) {
 }
 
 void strafeSpeed(int speed) {
-#warning "  motion::strafeSpeed untested"
 	frontWheels(speed);
 	backWheels(-speed * STRAFE_REAR_MULT);
 }
@@ -56,8 +68,5 @@ void turnSpeed(int speed) {
 }
 
 void stopWheels() {
-	motor[frontLeft]  = 0;
-	motor[frontRight] = 0;
-	motor[backRight]  = 0;
-	motor[backLeft]   = 0;
+	driveSpeed(0);
 }

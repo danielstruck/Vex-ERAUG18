@@ -5,6 +5,8 @@
 
 void autonSkills() {
 #warning "  autonSkills::autonSkills() untested"
+	displayLCDCenteredString(0, "AUTON SKILLS");
+
 	s_moveToMobileGoal();
 	
 	s_collectMobileGoal();
@@ -25,7 +27,6 @@ void s_moveToMobileGoal() {
 
 void s_collectMobileGoal() {
 	autonDrive(8, 1);
-	lockCaptureStart();
 }
 
 void s_moveToFeeder() {
@@ -35,22 +36,46 @@ void s_moveToFeeder() {
 }
 
 void s_collectFedCones() {
-	static const int CONES_MAX = 7;
-	// !! asumes that lift is at LIFT_HEIGHT_FEEDER_WAIT  !!
-	setLiftPos(LIFT_HEIGHT_FEEDER);
+	static const int CONES_MAX    = 7;
+	static const int CONES_STATIC = 3; // cones stacked before lift goes up
+	static const int OFFSET       = 100; // height difference for next cone
+	
+	lockCaptureStop();
+	setCapturePos(CAPTURE_RETRACTED);
 	int i = 0;
-	for (; i < 3; i++) {
+	
+	// !! asumes that lift is at LIFT_HEIGHT_FEEDER_WAIT  !!
+	for (; i < CONES_STATIC; ++i) {
+		setLiftPos(LIFT_HEIGHT_FEEDER);
 		collectCone();
-		setPistons(PISTON_RETRACT);
-		waitForStabilize();
-		wait1Msec(1500);
-		setPistons(PISTON_EXTEND);
+		s_depositFeederCone();
 	}
 	// increase heights for each next cone
+	for (; i < CONES_MAX; ++i) {
+		collectCone();
+		setLiftPos(LIFT_HEIGHT_FEEDER + OFFSET * (i-CONES_STATIC));
+		s_depositFeederCone();
+	}
+	
+	lockCaptureStart();
 }
 
 void s_scoreMobileGoal() {
-	
+	autonDrive(-35, DRIVE_INCHES_MULT);
+	autonRotate(ROTATE_RIGHT_1_DEG * 55, ROTATE_DEGREES_MULT);
+	driveSpeed(WHEELS_FORWARD);
+	wait1Msec(7 * 1000);
+	driveSpeed(0);
+	lockCaptureStop();
+	setCapturePos(CAPTURE_EXTENDED);
+	autonDrive(-20, 1);
 }
 
 // =======other definitions=======
+void s_depositFeederCone() {
+		setPistons(PISTON_RETRACT);
+		waitForStabilize();
+		depositCone();
+		setPistons(PISTON_EXTEND);
+		setLiftPos(LIFT_HEIGHT_FEEDER_WAIT);
+}

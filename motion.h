@@ -19,7 +19,7 @@
 #define WHEELS_FORWARD    127
 #define WHEELS_BACKWARD  -WHEELS_FORWARD
 // strafe speeds
-#define STRAFE_REAR_MULT  .8
+#define STRAFE_REAR_MULT  .85
 #define STRAFE_RIGHT      127
 #define STRAFE_LEFT      -STRAFE_RIGHT
 // turn speeds
@@ -38,6 +38,11 @@ void liftSpeed(int speed);
 
 // sets the mobile capture speed
 void mobileCaptureSpeed(int speed);
+
+void flSpeed(int speed);
+void blSpeed(int speed);
+void frSpeed(int speed);
+void brSpeed(int speed);
 
 // sets the front drive wheels' speed
 void frontWheels(int speed);

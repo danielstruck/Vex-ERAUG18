@@ -11,7 +11,7 @@ void depositCone() {
 void collectCone() {
 	drumSpeed(DRUM_PULL);
 	wait1Msec(1000);
-	drumSpeed(0);
+	drumSpeed(DRUM_HOLD);
 }
 
 void waitForStabilize() {
@@ -35,7 +35,9 @@ void autonStrafe(float inches, float mult) {
 
 void setupAuton() {
 	resetSensors();
-	collectCone();
+	drumSpeed(DRUM_PULL);
+	wait1Msec(600);
+	drumSpeed(0);
 	drumSpeed(DRUM_HOLD);
 	setPistons(PISTON_EXTEND);
 }

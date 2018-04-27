@@ -11,6 +11,7 @@ void autonBlue() {
 	//drum speed:        tmpDrum
 
 //==================================================
+	displayLCDCenteredString(0, "AUTON BLUE");
 
 	//last action:       started match
 	//position on field: at start
@@ -67,11 +68,11 @@ void b_scorePreloadOnStationaryGoal() {
 
 void b_pickUpRightCone() {
 	autonDrive(-20, DRIVE_INCHES_MULT); // avoid clipping the high goal on turn
-	autonRotate(ROTATE_RIGHT_1_DEG * 55, ROTATE_DEGREES_MULT);
+	autonRotate(ROTATE_RIGHT_1_DEG * 46, ROTATE_DEGREES_MULT);
 	
 	// facing cone
 	
-	autonDrive(57, DRIVE_INCHES_MULT);
+	autonDrive(55, DRIVE_INCHES_MULT);
 	
 	// at cone
 	
@@ -82,12 +83,12 @@ void b_pickUpRightCone() {
 }
 
 void b_putConeOnMobileBase() {
-	autonRotate(ROTATE_RIGHT_1_DEG * 20, ROTATE_DEGREES_MULT);
+	autonRotate(ROTATE_RIGHT_1_DEG * 20.5, ROTATE_DEGREES_MULT);
 	
 	// facing mobile goal
 	
 	setLiftPos(LIFT_HEIGHT_MOBILE);
-	autonDrive(14, DRIVE_INCHES_MULT);
+	autonDrive(23, DRIVE_INCHES_MULT);
 	
 	// cone is over mobile goal
 	
@@ -98,22 +99,22 @@ void b_putConeOnMobileBase() {
 }
 
 void b_scoreMobileBase() {
-	autonDrive(12, DRIVE_INCHES_MULT);
+	autonDrive(20, DRIVE_INCHES_MULT);
 	lockCaptureStart(); // remember to stop lockCapture
 	wait1Msec(2 * 1000);
 	
 	// base captured
 	
-	//autonRotate(ROTATE_LEFT_1_DEG * 28, ROTATE_DEGREES_MULT);
+	//autonRotate(ROTATE_RIGHT_1_DEG * 28, ROTATE_DEGREES_MULT);
 	
 	// facing opposite of 20pt goal
 	
-	autonDrive(-24, DRIVE_INCHES_MULT); // drive part of the way to avoid the cones
-	autonRotate(ROTATE_RIGHT_1_DEG * (180 - 25), ROTATE_DEGREES_MULT);
+	autonDrive(-30, DRIVE_INCHES_MULT); // drive part of the way to avoid the cones
+	autonRotate(ROTATE_RIGHT_1_DEG * (900 + 20), ROTATE_DEGREES_MULT);
 	
 	// facing 20pt goal
 	
-	driveSpeed(WHEELS_FORWARD);
+	driveSpeed(WHEELS_FORWARD * .5);
 	wait1Msec(7 * 1000);
 	stopWheels();
 	
@@ -123,7 +124,7 @@ void b_scoreMobileBase() {
 	
 	lockCaptureStop(); // remembered to stop lockCapture :)
 	setCapturePos(CAPTURE_EXTENDED);
-	autonDrive(-20, 1);
+	autonDrive(-40, 1);
 	
 	// deposited mobile goal
 }

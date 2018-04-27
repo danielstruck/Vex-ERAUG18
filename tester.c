@@ -11,8 +11,8 @@
 #pragma config(Motor,  port2,           liftRight,     tmotorVex393HighSpeed_MC29, openLoop, reversed, encoderPort, I2C_4)
 #pragma config(Motor,  port3,           mobileCapture, tmotorVex393_MC29, openLoop, encoderPort, I2C_3)
 #pragma config(Motor,  port4,           frontLeft,     tmotorVex393_MC29, openLoop, driveLeft, encoderPort, I2C_1)
-#pragma config(Motor,  port5,           backLeft,      tmotorVex393_MC29, openLoop, driveLeft, encoderPort, I2C_1)
-#pragma config(Motor,  port6,           backRight,     tmotorVex393_MC29, openLoop, driveRight, encoderPort, I2C_2)
+#pragma config(Motor,  port5,           backRight,      tmotorVex393_MC29, openLoop, driveLeft, encoderPort, I2C_1)
+#pragma config(Motor,  port6,           backLeft,     tmotorVex393_MC29, openLoop, driveRight, encoderPort, I2C_2)
 #pragma config(Motor,  port7,           frontRight,    tmotorVex393_MC29, openLoop, driveRight, encoderPort, I2C_2)
 #pragma config(Motor,  port8,           frictionDrum2, tmotorVex393_MC29, openLoop, reversed)
 #pragma config(Motor,  port9,           liftLeft,      tmotorVex393HighSpeed_MC29, openLoop, encoderPort, I2C_4)
@@ -22,6 +22,8 @@
 //#include "motionPlus.h"
 #include "sensors.h"
 #include "autonBlue.h"
+#include "autonRed.h"
+#include "autonSkills.h"
 
 // waits until a LCD button is pressed
 void stall();
@@ -35,11 +37,10 @@ void fullTestSensors();
 void fullTestMotionPlus();
 
 task main() {
-	stall();
-	lockCaptureStart();
-	stall();
-	setCapturePos(CAPTURE_EXTENDED);
-	stall();
+	driveInches(100, DRIVE_INCHES_MULT);
+	//driveSpeed(100);
+	//wait1Msec(3000);
+
 	//testAutonBlue();
 	//fullTestMotion();
 	//fullTestSensors();
@@ -97,9 +98,12 @@ void testAutonBlue() {
 	liftSpeed(0);
 	wait1Msec(1000);
 	mobileCaptureSpeed(0);
+
 	countdown(3);
 	setupAuton();
-	autonBlue();
+	//autonSkills();
+	//autonBlue();
+	autonRed();
 }
 
 void fullTestMotion() {
