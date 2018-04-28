@@ -6,7 +6,8 @@
 int selectedAuton;
 
 // string representation of the autons
-const string autonNames[] = {"default", "blue", "red", "skills"};
+const string autonNames[] = {"default", "blue", "red", "skills-red",
+							 "skills-blue", "AMBI-RED", "AMBI-BLUE"};
 
 
 // pre_auton() is already defined in the competition includes

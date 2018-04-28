@@ -110,13 +110,14 @@ void r_scoreMobileBase() {
 	// facing opposite of 20pt goal
 	
 	autonDrive(-30, DRIVE_INCHES_MULT); // drive part of the way to avoid the cones
-	autonRotate(ROTATE_LEFT_1_DEG * (900 + 20), ROTATE_DEGREES_MULT);
+	autonRotate(ROTATE_LEFT_1_DEG * (90 + 20), ROTATE_DEGREES_MULT);
 	
 	// facing 20pt goal
 	
-	driveSpeed(WHEELS_FORWARD * .5);
-	wait1Msec(7 * 1000);
-	stopWheels();
+	autonDrive(75, 1);
+	// driveSpeed(WHEELS_FORWARD * .5);
+	// wait1Msec(7 * 1000);
+	// stopWheels();
 	
 	//autonDrive(65, 1);
 	

@@ -45,7 +45,7 @@
 //=================== PREAUTON ===================
 //================================================
 
-#define  nAutons 4 // this should be the number of autons we have
+#define  nAutons 7 // this should be the number of autons we have
 #include "preAuton.h" // must be included after nAutons define
 
 //================================================
@@ -56,6 +56,7 @@
 #include "autonRed.h"
 #include "autonBlue.h"
 #include "autonSkills.h"
+#include "autonAmbi.h"
 #include "auton.h" // must be included after all other auton header files and preAuton
 
 //================================================

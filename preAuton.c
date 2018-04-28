@@ -16,8 +16,6 @@ void pre_auton() {
 #endif // _MOTION_PLUS_H_
 
 	selectAuton();
-
-	displayBatteryLevels();
 }
 
 void selectAuton() {
@@ -40,13 +38,13 @@ void selectAuton() {
 		
 		switch ((int)nLCDButtons) {
 			case left: // decrement auton
-				selectedAuton--;
+				--selectedAuton;
 				break;
 			case center: // confirm
 				autonChosen = true;
 				break;
 			case right: // increment auton
-				selectedAuton++;
+				++selectedAuton;
 				break;
 		}
 		
@@ -63,4 +61,6 @@ void selectAuton() {
 		clearLCDLine(1);
 		displayLCDCenteredString(1, autonNames[selectedAuton]);
 	}
+	
+	displayBatteryLevels();
 }

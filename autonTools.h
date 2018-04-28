@@ -2,6 +2,8 @@
 #define _AUTON_TOOLS_H_
 
 
+#define BLUE  1
+#define RED  -BLUE
 #define DRIVE_INCHES_MULT   .5
 #define ROTATE_DEGREES_MULT .45
 

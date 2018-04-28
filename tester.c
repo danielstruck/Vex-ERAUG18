@@ -37,7 +37,12 @@ void fullTestSensors();
 void fullTestMotionPlus();
 
 task main() {
-	driveInches(100, DRIVE_INCHES_MULT);
+	while (1) {
+		stall();
+		strafeInches(24, 1);
+		//stall();
+		//rotateDeg(90, ROTATE_DEGREES_MULT);
+	}
 	//driveSpeed(100);
 	//wait1Msec(3000);
 

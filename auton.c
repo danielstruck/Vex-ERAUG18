@@ -11,16 +11,24 @@ task autonomous() {
 	
 	switch (selectedAuton) {
 		case 1:
-		  autonBlue();
-		  break;
+			autonBlue();
+			break;
 		case 2:
-		  autonRed();
-		  break;
+			autonRed();
+			break;
 		case 3:
-		  autonSkills();
-		  break;
+			autonSkills(RED);
+			break;
+		case 4:
+			autonSkills(BLUE);
+		case 5:
+			autonAmbi(RED);
+			break;
+		case 6:
+			autonAmbi(BLUE);
+			break;
 		default:
-		  autonDefault();
-		  break;
+			autonDefault();
+			break;
 	}
 }

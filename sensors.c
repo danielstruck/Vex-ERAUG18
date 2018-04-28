@@ -29,7 +29,7 @@ void driveRaw(int amount, float mult) {
 		int baseSpeed = signum(amount) * mult * WHEELS_FORWARD;
 		
 		
-		const float waitTime = abs(3 * amount / 550);
+		const float waitTime = abs(3 * amount / 1000);
 		for (float i = 0; i < waitTime && abs(getDriveEncoderAvg()) < abs(amount); i += waitTimeSec) {
 			const float diff = getLeftDriveEncoder() - getRightDriveEncoder();
 			int speedL = baseSpeed;
@@ -104,9 +104,10 @@ void strafeRaw(int amount, float mult) {
 	if (amount != 0) {
 		int baseSpeed = signum(amount) * mult * STRAFE_RIGHT;
 
-		strafeSpeed(baseSpeed);
-		while (abs(getRightDriveEncoder()) < abs(amount))
+		while (abs(getRightDriveEncoder()) < abs(amount)) {
+			strafeSpeed(baseSpeed);
 			wait1Msec(10);
+		}
 
 		strafeSpeed(-baseSpeed); // kill the momentum
 		wait1Msec(90);
@@ -145,9 +146,10 @@ void rotateRaw(int amount, float mult) {
 	if (amount != 0) {
 		int baseSpeed = signum(amount) * mult * TURN_LEFT;
 
-		turnSpeed(baseSpeed);
-		while (abs(getLeftDriveEncoder()) < abs(amount))
+		while (abs(getLeftDriveEncoder()) < abs(amount)) {
+			turnSpeed(baseSpeed);
 			wait1Msec(10);
+		}
 
 		turnSpeed(-baseSpeed);
 		wait1Msec(90);
@@ -197,16 +199,18 @@ void setLiftPos(int position) {
 
 
 	if (position < getLiftEncoder()) {
-		liftSpeed(LIFT_DOWN);
-		while (getLiftEncoder() > position)
+		while (getLiftEncoder() > position) {
+			liftSpeed(LIFT_DOWN);
 			wait1Msec(10);
+		}
 		liftSpeed(LIFT_UP);
 		wait1Msec(90);
 	}
 	else {
-		liftSpeed(LIFT_UP);
-		while(getLiftEncoder() < position)
+		while(getLiftEncoder() < position) {
+			liftSpeed(LIFT_UP);
 			wait1Msec(10);
+		}
 		liftSpeed(LIFT_DOWN);
 		wait1Msec(45); // since gravity helps slow down the lift, there must be a shorter wait time here
 	}
@@ -228,14 +232,16 @@ void setCapturePos(int position) {
 
 
 	if (position < getCaptureEncoder()) {
-		mobileCaptureSpeed(CAPTURE_RETRACT);
-		while (getCaptureEncoder() > position)
+		while (getCaptureEncoder() > position) {
+			mobileCaptureSpeed(CAPTURE_RETRACT);
 			wait1Msec(10);
+		}
 	}
 	else {
-		mobileCaptureSpeed(CAPTURE_EXTEND);
-		while (getCaptureEncoder() < position)
+		while (getCaptureEncoder() < position) {
+			mobileCaptureSpeed(CAPTURE_EXTEND);
 			wait1Msec(10);
+		}
 	}
 
 	mobileCaptureSpeed(0);
@@ -257,10 +263,16 @@ task lockCapture() {
 		mobileCaptureIsLocked = true;
 		for (float i = 0; i < 3 && mobileCaptureIsLocked; i += .05) {
 			if (getCaptureEncoder() < CAPTURE_TOP - SIZE) {
-				mobileCaptureSpeed(CAPTURE_EXTEND);
+				if (getCaptureEncoder() > CAPTURE_TOP - SIZE/2)
+					mobileCaptureSpeed(CAPTURE_EXTEND * .8);
+				else
+					mobileCaptureSpeed(CAPTURE_EXTEND);
 			}
 			else if (getCaptureEncoder() > CAPTURE_TOP + SIZE) {
-				mobileCaptureSpeed(CAPTURE_RETRACT);
+				if (getCaptureEncoder() < CAPTURE_TOP + SIZE/2)
+					mobileCaptureSpeed(CAPTURE_RETRACT * .8);
+				else
+					mobileCaptureSpeed(CAPTURE_RETRACT);
 			}
 			else {
 				i = 0;
